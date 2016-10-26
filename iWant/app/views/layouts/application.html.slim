@@ -3,7 +3,7 @@ html
   |  <background ="fff"> 
   head
     title
-      | IWant
+      | iWant
     = csrf_meta_tags
     = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload'
     = javascript_include_tag 'application', 'data-turbolinks-track': 'reload'
@@ -12,21 +12,18 @@ html
     script src='//cdn.rawgit.com/printercu/google-maps-utility-library-v3-read-only/master/infobox/src/infobox_packed.js' type='text/javascript'
   body
     header
-      nav
-        - if user_signed_in?
-          |  Logged in as 
-          strong
-            = current_user.email
-          | . 
-          = link_to 'プロフィール変更', edit_user_registration_path
-          |  | 
-          = link_to "ログアウト", destroy_user_session_path, method: :delete
-        - else
-          = link_to "サインイン", new_user_registration_path
-          |  | 
-          = link_to "ログイン", new_user_session_path
-    p.notice
-      = notice
-    p.alert
-      = alert
+      .menubar
+        nav
+          - if user_signed_in?
+            |  Logged in as 
+            strong
+              = current_user.email
+            | . 
+            = link_to 'プロフィール変更', edit_user_registration_path
+            |  | 
+            = link_to "ログアウト", destroy_user_session_path, method: :delete
+          - else
+            = link_to "サインイン", new_user_registration_path
+            |  | 
+            = link_to "ログイン", new_user_session_path
     = yield
