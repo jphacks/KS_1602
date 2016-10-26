@@ -23,8 +23,12 @@ body{
   margin: 0px;
 }
 
+header{
+  height: 10%;
+}
+
 .menubar{
   background-color: #BF1717;
   width: 100%;
-  height: 50px;
+  height: 100%;
 }
