@@ -1,0 +1,32 @@
+doctype html
+html
+  |  <background ="fff"> 
+  head
+    title
+      | IWant
+    = csrf_meta_tags
+    = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload'
+    = javascript_include_tag 'application', 'data-turbolinks-track': 'reload'
+    script src="//maps.google.com/maps/api/js?v=3.23&key=AIzaSyAEsIhVRr4wm_r3RW7u8e1AkLILBGn-OnY"
+    script src="//cdn.rawgit.com/mahnunchik/markerclustererplus/master/dist/markerclusterer.min.js"
+    script src='//cdn.rawgit.com/printercu/google-maps-utility-library-v3-read-only/master/infobox/src/infobox_packed.js' type='text/javascript'
+  body
+    header
+      nav
+        - if user_signed_in?
+          |  Logged in as 
+          strong
+            = current_user.email
+          | . 
+          = link_to 'プロフィール変更', edit_user_registration_path
+          |  | 
+          = link_to "ログアウト", destroy_user_session_path, method: :delete
+        - else
+          = link_to "サインイン", new_user_registration_path
+          |  | 
+          = link_to "ログイン", new_user_session_path
+    p.notice
+      = notice
+    p.alert
+      = alert
+    = yield
