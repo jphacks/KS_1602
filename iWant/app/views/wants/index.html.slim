@@ -1,52 +1,8 @@
-p#notice
-  = notice
-h1
-  | Wants
-table
-  thead
-    tr
-      th
-        | User id
-      th
-        | Title
-      th
-        | Category id
-      th
-        | Comment
-      th
-        | Wefl
-      th
-        | Meridian
-      th[colspan="3"]
-  tbody
-    - @wants.each do |want|
-      tr
-        td
-          = want.USER_ID
-        td
-          = want.TITLE
-        td
-          = want.CATEGORY_ID
-        td
-          = want.COMMENT
-        td
-          = want.LATITUDE
-        td
-          = want.LONGITUDE
-        td
-          = link_to 'Show', want
-        td
-          = link_to 'Edit', edit_want_path(want)
-        td
-          = link_to 'Destroy', want, method: :delete, data: { confirm: 'Are you sure?' }
-br
-= link_to 'New Want', new_want_path
-
-#map style="width: 100%; height: 400px;"
-javascript:
-  handler = Gmaps.build('Google');
-  handler.buildMap({ provider: {}, internal: {id: 'map'}}, function(){
-    markers = handler.addMarkers(#{raw @hash.to_json});
-    handler.bounds.extendWith(markers);
-    handler.fitMapToBounds();
-  });
+#map style="width: 100%; height: 100%;"
+  javascript:
+    handler = Gmaps.build('Google');
+    handler.buildMap({ provider: {}, internal: {id: 'map'}}, function(){
+      markers = handler.addMarkers(#{raw @hash.to_json});
+      handler.bounds.extendWith(markers);
+      handler.fitMapToBounds();
+    });

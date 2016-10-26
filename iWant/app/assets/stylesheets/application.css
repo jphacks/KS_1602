@@ -13,3 +13,18 @@
  *= require_tree .
  *= require_self
  */
+
+html{
+  height: 100%;
+}
+
+body{
+  height: 100%;
+  margin: 0px;
+}
+
+.menubar{
+  background-color: #BF1717;
+  width: 100%;
+  height: 50px;
+}
