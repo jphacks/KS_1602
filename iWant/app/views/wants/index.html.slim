@@ -88,5 +88,24 @@ html
                   alert('Geocode was not successful for the following reason: ' + status);
                 }
               });
-              }
+            }
 
+            handler = Gmaps.build('Google');
+            handler.buildMap({ provider: {}, internal: {id: 'map'}}, function(){
+              markers = handler.addMarkers(#{raw @hash.to_json});
+              handler.bounds.extendWith(markers);
+              handler.fitMapToBounds();
+            });
+
+            handler.callback = function(){
+              google.maps.event.addListener(handler.map.serviceObject, "click", function(e){
+                console.log(e.latLng.lat(), e.latLng.lng());
+                markers = handler.addMarkers([
+                  {
+                    "lat": e.latLng.lat(),
+                    "lng": e.latLng.lng(),
+                    "infowindow": "<input></input><b>が欲しい!</b><br><textarea placeholder='本文'></textarea>",
+                  }
+                ]);
+              });
+            }();
