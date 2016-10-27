@@ -3,14 +3,71 @@ html
   body
     .wrapper
       .sidebar
+        h1
+          |  福岡県福岡市博多区
         p
-          test
+          tt
+            |  人口&nbsp&nbsp&nbsp&nbsp
+          tt
+            |  232,795人
+        p
+          tt
+            |  男女比&nbsp&nbsp&nbsp
+          tt
+            |  5:5
+        p
+          tt
+            |  年齢比
+          p
+            tt
+              |  &nbsp&nbsp10代以下&nbsp&nbsp&nbsp
+            tt
+              |  11%
+          p
+            tt
+              |  &nbsp&nbsp20代&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+            tt
+              |  12%
+          p
+            tt
+              |  &nbsp&nbsp30代&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+            tt
+              |  15%
+          p
+            tt
+              |  &nbsp&nbsp40代&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+            tt
+              |  17%
+          p
+            tt
+              |  &nbsp&nbsp50代&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+            tt
+              |  20%
+          p
+            tt
+              |  &nbsp&nbsp60代以上&nbsp&nbsp&nbsp
+            tt
+              |  25%
+        input style="margin-left: 20px; margin-bottom: 10px; width: 150px;" placeholder='キーワードで絞り込む'
+        ul style='list-style: none; color: white; padding: 0; margin-left: 15px; margin-top: 0px;'
+          li style="margin-top: 10px;"
+            input type='checkbox' style="margin-right: 10px;" 飲食関係(30)
+          li style="margin-top: 10px;"
+            input type='checkbox' style="margin-right: 10px;" ファッション(21)
+          li style="margin-top: 10px;"
+            input type='checkbox' style="margin-right: 10px;" エンタメ(18)
+          li style="margin-top: 10px;"
+            input type='checkbox' style="margin-right: 10px;" 公共施設(12)
+          li style="margin-top: 10px;"
+            input type='checkbox' style="margin-right: 10px;" 交通関係(8)
+
+          
       .mapview
         #map style="width: 100%; height: 100%;"
           javascript:
             var map = new google.maps.Map(document.getElementById('map'), {
-              zoom: 12,
-              center: {lat: -34.397, lng: 150.644}
+              zoom: 17,
+              center: {lat: 33.590324, lng: 130.423942}
             });
             var geocoder = new google.maps.Geocoder();
 
@@ -33,5 +90,3 @@ html
               });
               }
 
-
-/ script async="" defer="" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyATs7EN6kIVvkUAoV4T1oStKjLgmGhfwb0&signed_in=true&callback=initMap" 
