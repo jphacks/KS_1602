@@ -1,0 +1,52 @@
+<%= form_for(want) do |f| %>
+  <% if want.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(want.errors.count, "error") %> prohibited this want from being saved:</h2>
+
+      <ul>
+      <% want.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :USER_ID %>
+    <%= f.number_field :USER_ID %>
+  </div>
+
+  <div class="field">
+    <%= f.label :TITLE %>
+    <%= f.text_field :TITLE %>
+  </div>
+
+  <div class="field">
+    <%= f.label :CATEGORY_ID %>
+    <%= f.number_field :CATEGORY_ID %>
+  </div>
+
+  <div class="field">
+    <%= f.label :COMMENT %>
+    <%= f.text_area :COMMENT %>
+  </div>
+
+  <div class="field">
+    <%= f.label :WEFL %>
+    <%= f.text_field :WEFL %>
+  </div>
+
+  <div class="field">
+    <%= f.label :MERIDIAN %>
+    <%= f.text_field :MERIDIAN %>
+  </div>
+
+  <div class="field">
+    <%= f.label :GOOD %>
+    <%= f.number_field :GOOD %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
