@@ -1,0 +1,24 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Want id:</strong>
+  <%= @list_good.WANT_ID %>
+</p>
+
+<p>
+  <strong>User id:</strong>
+  <%= @list_good.USER_ID %>
+</p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @list_good.NAME %>
+</p>
+
+<p>
+  <strong>Count:</strong>
+  <%= @list_good.COUNT %>
+</p>
+
+<%= link_to 'Edit', edit_list_good_path(@list_good) %> |
+<%= link_to 'Back', list_goods_path %>
