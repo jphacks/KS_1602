@@ -1,0 +1,2 @@
+class ListGood < ApplicationRecord
+end

@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :list_goods
   resources :count_wants
   resources :categories
   resources :wants
