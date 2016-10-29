@@ -1,0 +1,1 @@
+json.partial! "count_wants/count_want", count_want: @count_want
