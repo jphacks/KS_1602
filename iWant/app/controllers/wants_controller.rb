@@ -5,6 +5,11 @@ class WantsController < ApplicationController
   # GET /wants.json
   def index
     @wants = Wants.all
+    @hash = Gmaps4rails.build_markers(@wants) do |want, marker|
+      marker.lat want.latitude
+      marker.lng want.longitude
+      marker.infowindow want.name
+    end
   end
 
   # GET /wants/1
