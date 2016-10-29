@@ -6,9 +6,9 @@ class WantsController < ApplicationController
   def index
     @wants = Wants.all
     @hash = Gmaps4rails.build_markers(@wants) do |want, marker|
-      marker.lat want.latitude
-      marker.lng want.longitude
-      marker.infowindow want.name
+      marker.lat want.LATITUDE
+      marker.lng want.LONGITUDE
+      marker.infowindow want.TITLE
     end
   end
 

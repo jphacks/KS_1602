@@ -1,0 +1,21 @@
+p#notice
+  = notice
+p
+  strong
+    | Want id:
+  = @list_good.WANT_ID
+p
+  strong
+    | User id:
+  = @list_good.USER_ID
+p
+  strong
+    | Name:
+  = @list_good.NAME
+p
+  strong
+    | Count:
+  = @list_good.COUNT
+= link_to 'Edit', edit_list_good_path(@list_good)
+|  | 
+= link_to 'Back', list_goods_path
