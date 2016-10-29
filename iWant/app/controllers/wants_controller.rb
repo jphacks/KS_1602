@@ -1,4 +1,4 @@
-class WanTsController < ApplicationController
+class WantsController < ApplicationController
   before_action :set_want, only: [:show, :edit, :update, :destroy]
 
   # GET /wants
