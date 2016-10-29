@@ -50,3 +50,16 @@ javascript:
     handler.bounds.extendWith(markers);
     handler.fitMapToBounds();
   });
+
+  handler.callback = function(){
+    google.maps.event.addListener(handler.map.serviceObject, "click", function(e){
+      console.log(e.latLng.lat(), e.latLng.lng());
+      markers = handler.addMarkers([
+        {
+          "lat": e.latLng.lat(),
+          "lng": e.latLng.lng(),
+          "infowindow": "hello!",
+        }
+      ]);
+    });
+  }();
