@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161029070333) do
+ActiveRecord::Schema.define(version: 20161029080828) do
 
   create_table "categories", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer  "CATEDORY_ID"
@@ -59,9 +59,8 @@ ActiveRecord::Schema.define(version: 20161029070333) do
     t.string   "TITLE"
     t.integer  "CATEGORY_ID"
     t.text     "COMMENT",     limit: 65535
-    t.float    "WEFL",        limit: 24
-    t.float    "MERIDIAN",    limit: 24
-    t.integer  "GOOD"
+    t.float    "LATITUDE",    limit: 24
+    t.float    "LONGITUDE",   limit: 24
     t.datetime "created_at",                null: false
     t.datetime "updated_at",                null: false
   end
