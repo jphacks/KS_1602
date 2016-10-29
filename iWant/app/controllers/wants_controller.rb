@@ -30,7 +30,6 @@ class WantsController < ApplicationController
   # POST /wants.json
   def create
     @want = Wants.new(want_params)
-
     respond_to do |format|
       if @want.save
         format.html { redirect_to @want, notice: 'Wants was successfully created.' }
@@ -61,7 +60,7 @@ class WantsController < ApplicationController
   def destroy
     @want.destroy
     respond_to do |format|
-      format.html { redirect_to wants_index_url, notice: 'Wants was successfully destroyed.' }
+      format.html { redirect_to wants_url, notice: 'Wants was successfully destroyed.' }
       format.json { head :no_content }
     end
   end
@@ -74,6 +73,7 @@ class WantsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def want_params
-      params.require(:want).permit(:USER_ID, :TITLE, :CATEGORY_ID, :COMMENT, :WEFL, :MERIDIAN, :GOOD)
+      #params.require(:want).permit(:USER_ID, :TITLE, :CATEGORY_ID, :COMMENT, :LATITUDE, :LONGITUDE)
+      params.require('wants').permit(:USER_ID, :TITLE, :CATEGORY_ID, :COMMENT, :LATITUDE, :LONGITUDE)
     end
 end

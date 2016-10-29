@@ -1,4 +1,4 @@
-= form_for(want) do |f|
+= form_for(want,:url => {:action => :create}) do |f|
   - if want.errors.any?
     #error_explanation
       h2
@@ -21,13 +21,10 @@
     = f.label :COMMENT
     = f.text_area :COMMENT
   .field
-    = f.label :WEFL
-    = f.text_field :WEFL
+    = f.label :LATITUDE
+    = f.text_field :LATITUDE
   .field
-    = f.label :MERIDIAN
-    = f.text_field :MERIDIAN
-  .field
-    = f.label :GOOD
-    = f.number_field :GOOD
+    = f.label :LONGITUDE
+    = f.text_field :LONGITUDE
   .actions
     = f.submit
