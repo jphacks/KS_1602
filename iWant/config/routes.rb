@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :count_wants
   resources :categories
   resources :wants
   devise_for :users
