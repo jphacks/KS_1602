@@ -1,2 +1,0 @@
-class CountWant < ApplicationRecord
-end
