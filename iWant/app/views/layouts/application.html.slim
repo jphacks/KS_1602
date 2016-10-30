@@ -26,4 +26,8 @@ html
             = link_to "サインイン", new_user_registration_path
             |  | 
             = link_to "ログイン", new_user_session_path
+        .search
+          input#address type="textbox" value="Sydney, NSW" 
+          input#submit type="button" value="Geocode"
+
     = yield
