@@ -31,8 +31,36 @@ header{
   background-color: #fff;
   width: 100%;
   height: 100%;
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: space-between;
+  padding-top:40px;
 }
 
 .menubar a {
   color: #BF1717;
+}
+
+
+
+
+.logo{
+color: #BF1717;
+font-size: 35pt;
+font-weight: 800;
+margin-right: 200px;
+}
+
+.address{
+margin-left: 100px;
+
+}
+
+input[type=text]{
+font-size:6em;
+}
+
+.id{
+width: 30%;
+height: 25px;
 }
