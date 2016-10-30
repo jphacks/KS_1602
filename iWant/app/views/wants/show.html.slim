@@ -18,16 +18,12 @@ p
   = @want.COMMENT
 p
   strong
-    | Wefl:
-  = @want.WEFL
+    | LATITUDE:
+  = @want.LATITUDE
 p
   strong
-    | Meridian:
-  = @want.MERIDIAN
-p
-  strong
-    | Good:
-  = @want.GOOD
+    | LONGITUDE:
+  = @want.LONGITUDE
 = link_to 'Edit', edit_want_path(@want)
 |  | 
-= link_to 'Back', wants_index_path
+= link_to 'Back', wants_path
