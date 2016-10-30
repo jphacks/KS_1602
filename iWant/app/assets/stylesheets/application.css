@@ -28,7 +28,11 @@ header{
 }
 
 .menubar{
-  background-color: #BF1717;
+  background-color: #fff;
   width: 100%;
   height: 100%;
+}
+
+.menubar a {
+  color: #BF1717;
 }
