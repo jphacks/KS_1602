@@ -1,0 +1,16 @@
+html
+  body
+    h1 hogeさんのページ
+
+    p.icon_img
+
+    p.status
+      | UserID&nbsp:&nbsp
+      = @user.id
+
+    p.status
+      | Email&nbsp:&nbsp
+      = @user.email
+
+    p
+      input[type="button" value="通話を開始" onclick="location.href='#{contacts_path}'"]

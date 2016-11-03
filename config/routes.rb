@@ -1,6 +1,9 @@
 Rails.application.routes.draw do
+  get 'users/index'
+
+  get 'users/show'
+
   resources :contacts
-  resources :user_pages
   resources :list_goods
   resources :count_wants
   resources :categories
