@@ -1,0 +1,2 @@
+class UserPage < ApplicationRecord
+end
