@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  resources :contacts
+  resources :user_pages
   resources :list_goods
   resources :count_wants
   resources :categories
