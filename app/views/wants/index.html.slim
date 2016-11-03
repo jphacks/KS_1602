@@ -63,49 +63,100 @@ html
 
           
       .mapview
-        #map style="width: 100%; height: 100%;"
-          javascript:
-            var map = new google.maps.Map(document.getElementById('map'), {
-              zoom: 17,
-              center: {lat: 33.590324, lng: 130.423942}
-            });
-            var geocoder = new google.maps.Geocoder();
+        - if user_signed_in?
+          | 
+          #map style="width: 100%; height: 100%;"
+            javascript:
+              var map = new google.maps.Map(document.getElementById('map'), {
+                zoom: 17,
+                center: {lat: 33.590324, lng: 130.423942}
+                });
+                var geocoder = new google.maps.Geocoder();
 
-            document.getElementById('submit').addEventListener('click', function() {
-              geocodeAddress(geocoder, map);
-            });
+                document.getElementById('submit').addEventListener('click', function() {
+                  geocodeAddress(geocoder, map);
+                });
 
-            function geocodeAddress(geocoder, resultsMap) {
-              var address = document.getElementById('address').value;
-              geocoder.geocode({'address': address}, function(results, status) {
-                if (status === google.maps.GeocoderStatus.OK) {
-                  resultsMap.setCenter(results[0].geometry.location);
-                  var marker = new google.maps.Marker({
-                  map: resultsMap,
-                  position: results[0].geometry.location
+                function geocodeAddress(geocoder, resultsMap) {
+                  var address = document.getElementById('address').value;
+                  geocoder.geocode({'address': address}, function(results, status) {
+                    if (status === google.maps.GeocoderStatus.OK) {
+                      resultsMap.setCenter(results[0].geometry.location);
+                      var marker = new google.maps.Marker({
+                      map: resultsMap,
+                      position: results[0].geometry.location
+                      });
+                    } else {
+                      alert('Geocode was not successful for the following reason: ' + status);
+                    }
                   });
-                } else {
-                  alert('Geocode was not successful for the following reason: ' + status);
                 }
-              });
-            }
 
-            handler = Gmaps.build('Google');
-            handler.buildMap({ provider: {}, internal: {id: 'map'}}, function(){
-              markers = handler.addMarkers(#{raw @hash.to_json});
-              handler.bounds.extendWith(markers);
-              handler.fitMapToBounds();
-            });
+                handler = Gmaps.build('Google');
+                handler.buildMap({ provider: {}, internal: {id: 'map'}}, function(){
+                  markers = handler.addMarkers(#{raw @hash.to_json});
+                  handler.bounds.extendWith(markers);
+                  handler.fitMapToBounds();
+                });
 
-            handler.callback = function(){
-              google.maps.event.addListener(handler.map.serviceObject, "click", function(e){
-                console.log(e.latLng.lat(), e.latLng.lng());
-                markers = handler.addMarkers([
-                  {
-                    "lat": e.latLng.lat(),
-                    "lng": e.latLng.lng(),
-                    "infowindow": "<input></input><b>が欲しい!</b><br><textarea placeholder='本文'></textarea>",
-                  }
-                ]);
-              });
-            }();
+                handler.callback = function(){
+                  google.maps.event.addListener(handler.map.serviceObject, "click", function(e){
+                    console.log(e.latLng.lat(), e.latLng.lng());
+                    markers = handler.addMarkers([
+                      {
+                        "lat": e.latLng.lat(),
+                        "lng": e.latLng.lng(),
+                        "infowindow": "<input></input><b>が欲しい!</b><br><textarea placeholder='本文'></textarea>",
+                      }
+                    ]);
+                  });
+                }();
+
+
+        - else
+               #map style="width: 100%; height: 100%;"
+                 javascript:
+                   var map = new google.maps.Map(document.getElementById('map'), {
+                   zoom: 17,
+                   center: {lat: 33.590324, lng: 130.423942}
+                   });
+                   var geocoder = new google.maps.Geocoder();
+
+                   document.getElementById('submit').addEventListener('click', function() {
+                     geocodeAddress(geocoder, map);
+                   });
+
+                   function geocodeAddress(geocoder, resultsMap) {
+                     var address = document.getElementById('address').value;
+                     geocoder.geocode({'address': address}, function(results, status) {
+                       if (status === google.maps.GeocoderStatus.OK) {
+                         resultsMap.setCenter(results[0].geometry.location);
+                         var marker = new google.maps.Marker({
+                         map: resultsMap,
+                         position: results[0].geometry.location
+                         });
+                       } else {
+                         alert('Geocode was not successful for the following reason: ' + status);
+                       }
+                     });
+                   }
+
+                   handler = Gmaps.build('Google');
+                   handler.buildMap({ provider: {}, internal: {id: 'map'}}, function(){
+                     markers = handler.addMarkers(#{raw @hash.to_json});
+                     handler.bounds.extendWith(markers);
+                     handler.fitMapToBounds();
+                   });
+
+                   handler.callback = function(){
+                     google.maps.event.addListener(handler.map.serviceObject, "click", function(e){
+                       console.log(e.latLng.lat(), e.latLng.lng());
+                       markers = handler.addMarkers([
+                         {
+                           "lat": e.latLng.lat(),
+                           "lng": e.latLng.lng(),
+                           "infowindow": 'ピンを建てるには'+'<a href="/users/sign_in">ログイン</a>'+'か'+'<a href="/users/sign_up">新規登録</a>'+'を行ってください',
+                         }
+                       ]);
+                     });
+                   }();
