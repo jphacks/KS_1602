@@ -5,7 +5,6 @@ class CreateCountWants < ActiveRecord::Migration[5.0]
       t.integer :CATEGORY_ID
       t.string :TITLE
       t.integer :COUNT
-      primary_key:"IDEA"
 
       t.timestamps
     end
