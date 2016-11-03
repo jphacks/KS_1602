@@ -66,42 +66,40 @@ html
       .mapview
         #map style="width: 100%; height: 100%;"
           javascript:
-            var map;
-            var geocoder = new google.maps.Geocoder;
-            var myLatlng = {lat: -25.363, lng: 131.044};
-            map = new google.maps.Map(document.getElementById("map"),{
-              zoom : 17,
-              center : myLatlng
+            handler = Gmaps.build('Google'); 
+            handler.buildMap({ provider: {}, internal: {id: 'map'}}, function(){ 
+              markers = handler.addMarkers(#{raw @hash.to_json}); 
+              handler.bounds.extendWith(markers); 
+              handler.fitMapToBounds(); 
             });
-            document.getElementById('submit').addEventListener('click',function(){
-              geocodeAddress(geocoder,map);
-            });
-
-            function geocodeAddress(geocoder,resultMap) {
-              var address = document.getElementById('address').value;
-              geocoder.geocode({'address': address}, function(results, status) { 
-                if (status == google.maps.GeocoderStatus.OK) { 
-                  resultMap.setCenter(results[0].geometry.location); 
-                  var marker = new google.maps.Marker({ 
-                    map: resultMap, 
-                    position: results[0].geometry.location 
-                  }); 
  
-                } else { 
-                  alert('Geocode was not successful for the following reason: ' + status); 
-                } 
-              }); 
-            }
-
-
-
-            google.maps.event.addListener(map,'click',clickEventFunc);
-            
-            function clickEventFunc(event){
-              var latlng = new google.maps.Marker(event.latLng.lat(),event.latLng.lng());
-              var marker = new google.maps.Marker({
-                map:map,
-                position:latlng,
+            handler.callback = function(){
+              document.getElementById('submit').addEventListener('click',function(){
+                var geocoder = new google.maps.Geocoder();
+                geocodeAddress(geocoder,handler)
               });
-              marker.setMap(map);
-            }
+
+              function geocodeAddress(geocoder,handler){
+                var address = document.getElementById('address').value;
+                geocoder.geocode({'address':address},function(results,status){              
+                  if (status == google.maps.GeocoderStatus.OK){
+                    var latlng = new google.maps.LatLng(results[0].geometry.location.lat,results[0].geometry.location.lng)
+                    handler.getMap().setCenter(results[0].geometry.location);
+                    handler.getMap().setZoom(17);
+                  }else{
+                    alert('geocode error:' + status);
+                  } 
+                });
+              }
+
+              google.maps.event.addListener(handler.map.serviceObject, "click", function(e){ 
+                console.log(e.latLng.lat(), e.latLng.lng()); 
+                markers = handler.addMarkers([ 
+                  { 
+                    "lat": e.latLng.lat(), 
+                    "lng": e.latLng.lng(), 
+                    "infowindow": "<input></input><b>が欲しい!</b><br><textarea placeholder='本文'></textarea>", 
+                  } 
+                ]); 
+              }); 
+            }();
