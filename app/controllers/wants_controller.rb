@@ -8,7 +8,7 @@ class WantsController < ApplicationController
     @hash = Gmaps4rails.build_markers(@wants) do |want, marker|
       marker.lat want.LATITUDE
       marker.lng want.LONGITUDE
-       marker.infowindow want.TITLE
+      marker.infowindow want.TITLE
     end
   end
 
