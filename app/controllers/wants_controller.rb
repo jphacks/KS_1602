@@ -32,7 +32,7 @@ class WantsController < ApplicationController
     @want = Wants.new(want_params)
     respond_to do |format|
       if @want.save
-        format.html { redirect_to @want, notice: 'Wants was successfully created.' }
+        format.html { redirect_to wants_path, notice: 'Wants was successfully created.' }
         format.json { render :show, status: :created, location: @want }
       else
         format.html { render :new }

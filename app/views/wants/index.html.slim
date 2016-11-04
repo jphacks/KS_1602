@@ -1,11 +1,10 @@
 doctype html
-
 html
   body
     .wrapper
       .sidebar
         h1
-          |  福岡県福岡市博多区 
+          |  福岡県福岡市博多区 #{current_user.id}
         p
           tt
             |  人口&nbsp&nbsp&nbsp&nbsp
@@ -69,39 +68,47 @@ html
           javascript:
             var tokenDOM = document.getElementById("token");
             var token = tokenDOM.value;
-            handler = Gmaps.build('Google'); 
-            handler.buildMap({ provider: {}, internal: {id: 'map'}}, function(){ 
-              markers = handler.addMarkers(#{raw @hash.to_json}); 
-              handler.bounds.extendWith(markers); 
-              handler.fitMapToBounds(); 
+            var map = new google.maps.Map(document.getElementById('map'), {
+              zoom: 17,
+              center: {lat: 33.590324, lng: 130.423942}
             });
- 
-            handler.callback = function(){
-              document.getElementById('submit').addEventListener('click',function(){
-                geocodeAddress(geocoder,handler)
+            var geocoder = new google.maps.Geocoder();
+
+            document.getElementById('submit').addEventListener('click', function() {
+              geocodeAddress(geocoder, map);
+            });
+
+            function geocodeAddress(geocoder, resultsMap) {
+              var address = document.getElementById('address').value;
+              geocoder.geocode({'address': address}, function(results, status) {
+                if (status === google.maps.GeocoderStatus.OK) {
+                  resultsMap.setCenter(results[0].geometry.location);
+                  var marker = new google.maps.Marker({
+                  map: resultsMap,
+                  position: results[0].geometry.location
+                  });
+                } else {
+                  alert('Geocode was not successful for the following reason: ' + status);
+                }
               });
+            }
 
-              function geocodeAddress(geocoder,handler){
-                var address = document.getElementById('address').value;
-                geocoder.geocode({'address':address},function(results,status){              
-                  if (status == google.maps.GeocoderStatus.OK){
-                    var latlng = new google.maps.LatLng(results[0].geometry.location.lat,results[0].geometry.location.lng)
-                    handler.getMap().setCenter(results[0].geometry.location);
-                    handler.getMap().setZoom(17);
-                  }else{
-                    alert('geocode error:' + status);
-                  } 
-                });
-              }
+            handler = Gmaps.build('Google');
+            handler.buildMap({ provider: {}, internal: {id: 'map'}}, function(){
+              markers = handler.addMarkers(#{raw @hash.to_json});
+              handler.bounds.extendWith(markers);
+              handler.fitMapToBounds();
+            });
 
+            handler.callback = function(){
               google.maps.event.addListener(handler.map.serviceObject, "click", function(e){
                 console.log(e.latLng.lat(), e.latLng.lng());
                 markers = handler.addMarkers([
                   {
                     "lat": e.latLng.lat(),
                     "lng": e.latLng.lng(),
-                    "infowindow": '<form class="new_wants" id="new_wants" action="/wants" accept-charset="UTF-8" method="post"><input name="utf8" type="hidden" value="&#x2713;" /><input type="hidden" name="authenticity_token" value="'+token+'" /><div class="field"><input type="hidden" name="wants[USER_ID]" value="#{current_user.id}" id="wants_USER_ID" /></div><div class="field"><label for="wants_TITLE">Title</label><input type="text" name="wants[TITLE]" id="wants_TITLE" /></div><div class="field"><label for="wants_CATEGORY_ID">Category id</label><input type="number" name="wants[CATEGORY_ID]" id="wants_CATEGORY_ID" /></div><div class="field"><label for="wants_COMMENT">Comment</label><textarea name="wants[COMMENT]" id="wants_COMMENT"></textarea></div><div class="field"><input type="hidden" name="wants[LATITUDE]" value="'+e.latLng.lat()+'"  id="wants_LATITUDE" /></div><div class="field"><input type="hidden" name="wants[LONGITUDE]" value="'+e.latLng.lng()+'"  id="wants_LONGITUDE" /></div><div class="actions"><input type="submit" name="commit" value="Create Wants" data-disable-with="Create Wants" /></div></form>',
+                    "infowindow": '<form class="new_wants" id="new_wants" action="/wants" accept-charset="UTF-8" method="post"><input name="utf8" type="hidden" value="&#x2713;" /><input type="hidden" name="authenticity_token" value="'+token+'" /><div class="field"><input type="hidden" name="wants[USER_ID]" value="'+#{current_user.id}+'"  id="wants_USER_ID" /></div><div class="field"><label for="wants_TITLE">Title</label><input type="text" name="wants[TITLE]" id="wants_TITLE" /></div><div class="field"><label for="wants_CATEGORY_ID">Category id</label><input type="number" name="wants[CATEGORY_ID]" id="wants_CATEGORY_ID" /></div><div class="field"><label for="wants_COMMENT">Comment</label><textarea name="wants[COMMENT]" id="wants_COMMENT"></textarea></div><div class="field"><input type="hidden" name="wants[LATITUDE]" value="'+e.latLng.lat()+'"  id="wants_LATITUDE" /></div><div class="field"><input type="hidden" name="wants[LONGITUDE]" value="'+e.latLng.lng()+'"  id="wants_LONGITUDE" /></div><div class="actions"><input type="submit" name="commit" value="Create Wants" data-disable-with="Create Wants" /></div></form>',
                   }
                 ]);
               });
-           }();
+            }();
