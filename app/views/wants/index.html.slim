@@ -4,7 +4,7 @@ html
     .wrapper
       .sidebar
         h1
-          |  福岡県福岡市博多区 #{current_user.id}
+          |  福岡県福岡市博多区
         p
           tt
             |  人口&nbsp&nbsp&nbsp&nbsp
@@ -107,7 +107,7 @@ html
                   {
                     "lat": e.latLng.lat(),
                     "lng": e.latLng.lng(),
-                    "infowindow": '<form class="new_wants" id="new_wants" action="/wants" accept-charset="UTF-8" method="post"><input name="utf8" type="hidden" value="&#x2713;" /><input type="hidden" name="authenticity_token" value="'+token+'" /><div class="field"><input type="hidden" name="wants[USER_ID]" value="'+#{current_user.id}+'"  id="wants_USER_ID" /></div><div class="field"><label for="wants_TITLE">Title</label><input type="text" name="wants[TITLE]" id="wants_TITLE" /></div><div class="field"><label for="wants_CATEGORY_ID">Category id</label><input type="number" name="wants[CATEGORY_ID]" id="wants_CATEGORY_ID" /></div><div class="field"><label for="wants_COMMENT">Comment</label><textarea name="wants[COMMENT]" id="wants_COMMENT"></textarea></div><div class="field"><input type="hidden" name="wants[LATITUDE]" value="'+e.latLng.lat()+'"  id="wants_LATITUDE" /></div><div class="field"><input type="hidden" name="wants[LONGITUDE]" value="'+e.latLng.lng()+'"  id="wants_LONGITUDE" /></div><div class="actions"><input type="submit" name="commit" value="Create Wants" data-disable-with="Create Wants" /></div></form>',
+                    "infowindow": '<form class="new_wants" id="new_wants" action="/wants" accept-charset="UTF-8" method="post"><input name="utf8" type="hidden" value="&#x2713;" /><input type="hidden" name="authenticity_token" value="'+token+'" /><div class="field"><input type="hidden" name="wants[USER_ID]" value="'+#{if current_user then current_user.id}+'"  id="wants_USER_ID" /></div><div class="field"><label for="wants_TITLE">Title</label><input type="text" name="wants[TITLE]" id="wants_TITLE" /></div><div class="field"><label for="wants_CATEGORY_ID">Category id</label><input type="number" name="wants[CATEGORY_ID]" id="wants_CATEGORY_ID" /></div><div class="field"><label for="wants_COMMENT">Comment</label><textarea name="wants[COMMENT]" id="wants_COMMENT"></textarea></div><div class="field"><input type="hidden" name="wants[LATITUDE]" value="'+e.latLng.lat()+'"  id="wants_LATITUDE" /></div><div class="field"><input type="hidden" name="wants[LONGITUDE]" value="'+e.latLng.lng()+'"  id="wants_LONGITUDE" /></div><div class="actions"><input type="submit" name="commit" value="Create Wants" data-disable-with="Create Wants" /></div></form>',
                   }
                 ]);
               });
