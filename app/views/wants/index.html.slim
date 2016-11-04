@@ -4,7 +4,7 @@ html
     .wrapper
       .sidebar
         h1
-          |  福岡県福岡市博多区
+          |  福岡県福岡市博多区 
         p
           tt
             |  人口&nbsp&nbsp&nbsp&nbsp
@@ -61,10 +61,13 @@ html
           li style="margin-top: 10px;"
             input type='checkbox' style="margin-right: 10px;" 交通関係(8)
 
-          
+
+      input id='token' type='hidden' value='#{form_authenticity_token}'
       .mapview
         #map style="width: 100%; height: 100%;"
           javascript:
+            var tokenDOM = document.getElementById("token");
+            var token = tokenDOM.value;
             var map = new google.maps.Map(document.getElementById('map'), {
               zoom: 17,
               center: {lat: 33.590324, lng: 130.423942}
@@ -104,7 +107,7 @@ html
                   {
                     "lat": e.latLng.lat(),
                     "lng": e.latLng.lng(),
-                    "infowindow": '<form class="new_wants" id="new_wants" action="/wants" accept-charset="UTF-8" method="post"><input name="utf8" type="hidden" value="&#x2713;" /><input type="hidden" name="authenticity_token" value="HIqgnQrspVBwAN7GYRY0je3v1ZFZdpr26a0hS9FweSTCvpfo5e/Ks/Wf9B//D/sF5dHzBT3WL+j28kXLfubUSw==" /><div class="field"><label for="wants_USER_ID">User id</label><input type="number" name="wants[USER_ID]" id="wants_USER_ID" /></div><div class="field"><label for="wants_TITLE">Title</label><input type="text" name="wants[TITLE]" id="wants_TITLE" /></div><div class="field"><label for="wants_CATEGORY_ID">Category id</label><input type="number" name="wants[CATEGORY_ID]" id="wants_CATEGORY_ID" /></div><div class="field"><label for="wants_COMMENT">Comment</label><textarea name="wants[COMMENT]" id="wants_COMMENT"></textarea></div><div class="field"><label for="wants_LATITUDE">Latitude</label><input type="text" name="wants[LATITUDE]" id="wants_LATITUDE" /></div><div class="field"><label for="wants_LONGITUDE">Longitude</label><input type="text" name="wants[LONGITUDE]" id="wants_LONGITUDE" /></div><div class="actions"><input type="submit" name="commit" value="Create Wants" data-disable-with="Create Wants" /></div></form>',
+                    "infowindow": '<form class="new_wants" id="new_wants" action="/wants" accept-charset="UTF-8" method="post"><input name="utf8" type="hidden" value="&#x2713;" /><input type="hidden" name="authenticity_token" value="'+token+'" /><div class="field"><label for="wants_USER_ID">User id</label><input type="number" name="wants[USER_ID]" id="wants_USER_ID" /></div><div class="field"><label for="wants_TITLE">Title</label><input type="text" name="wants[TITLE]" id="wants_TITLE" /></div><div class="field"><label for="wants_CATEGORY_ID">Category id</label><input type="number" name="wants[CATEGORY_ID]" id="wants_CATEGORY_ID" /></div><div class="field"><label for="wants_COMMENT">Comment</label><textarea name="wants[COMMENT]" id="wants_COMMENT"></textarea></div><div class="field"><input type="hidden" name="wants[LATITUDE]" value="'+e.latLng.lat()+'"  id="wants_LATITUDE" /></div><div class="field"><input type="hidden" name="wants[LONGITUDE]" value="'+e.latLng.lng()+'"  id="wants_LONGITUDE" /></div><div class="actions"><input type="submit" name="commit" value="Create Wants" data-disable-with="Create Wants" /></div></form>',
                   }
                 ]);
               });
