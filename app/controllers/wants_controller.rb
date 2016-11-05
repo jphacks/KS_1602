@@ -1,6 +1,7 @@
 class WantsController < ApplicationController
   before_action :set_want, only: [:show, :edit, :update, :destroy]
 
+
   # GET /wants
   # GET /wants.json
   def index
@@ -10,6 +11,7 @@ class WantsController < ApplicationController
       marker.lng want.LONGITUDE
       marker.infowindow want.TITLE
     end
+    @categories = Category.all
   end
 
   # GET /wants/1
