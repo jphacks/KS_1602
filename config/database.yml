@@ -49,6 +49,11 @@ test:
 #
 production:
   <<: *default
+  adapter: postgresql
+  encoding: unicode
+  # For details on connection pooling, see rails configuration guide
+  # http://guides.rubyonrails.org/configuring.html#database-pooling
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
   database: iWant_production
   username: iWant
   password: <%= ENV['IWANT_DATABASE_PASSWORD'] %>
