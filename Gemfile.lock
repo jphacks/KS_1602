@@ -162,16 +162,13 @@ GEM
     thor (0.19.1)
     thread_safe (0.3.5)
     tilt (2.0.5)
-    turbolinks (5.0.1)
-      turbolinks-source (~> 5)
-    turbolinks-source (5.0.0)
     tzinfo (1.2.2)
       thread_safe (~> 0.1)
     uglifier (3.0.3)
       execjs (>= 0.3.0, < 3)
     warden (1.2.6)
       rack (>= 1.0)
-    web-console (3.3.1)
+    web-console (3.4.0)
       actionview (>= 5.0)
       activemodel (>= 5.0)
       debug_inspector
@@ -201,7 +198,6 @@ DEPENDENCIES
   spring
   spring-watcher-listen (~> 2.0.0)
   therubyracer
-  turbolinks (~> 5)
   tzinfo-data
   uglifier (>= 1.3.0)
   web-console
