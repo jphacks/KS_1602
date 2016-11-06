@@ -6,7 +6,7 @@ class WantsController < ApplicationController
   def index
     @wants = Wants.all
     @hash = Gmaps4rails.build_markers(@wants) do |want, marker|
-      info = "<h1>" + want.TITLE + " が欲しい！</h1><h2>user id: " + want.USER_ID.to_s + "</h2><p>" + want.COMMENT + "</p>";
+      info = "<div class=\"infowindow\"><h2>" + want.TITLE + " が欲しい！</h2><h3>user id: " + want.USER_ID.to_s + "</h3><p>" + want.COMMENT + "</p><p class=\"button-delete\"><a data-confirm=\"本当に削除しますか？?\" rel=\"nofollow\" data-method=\"delete\" href=\"/wants/" + want.id.to_s + "\">Destroy</a></p></div>";
       marker.lat want.LATITUDE
       marker.lng want.LONGITUDE
       marker.infowindow info
