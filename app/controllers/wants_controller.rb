@@ -9,7 +9,13 @@ class WantsController < ApplicationController
     end
     @wants = Wants.all
     @hash = Gmaps4rails.build_markers(@wants) do |want, marker|
-      info = "<div class=\"infowindow\"><h2>" + want.TITLE + " が欲しい！</h2><h3>user id: " + want.USER_ID.to_s + "</h3><p>" + want.COMMENT + "</p><p class=\"button-delete\"><a data-confirm=\"本当に削除しますか？?\" rel=\"nofollow\" data-method=\"delete\" href=\"/wants/" + want.id.to_s + "\">Destroy</a></p></div>";
+      if user_signed_in?
+        if current_user.id == want.USER_ID
+          info = "<div class=\"infowindow\"><h2>" + want.TITLE + " が欲しい！</h2><h3>user id: " + want.USER_ID.to_s + "</h3><p>" + want.COMMENT + "</p><p class=\"button-delete\"><a data-confirm=\"本当に削除しますか？?\" rel=\"nofollow\" data-method=\"delete\" href=\"/wants/" + want.id.to_s + "\">Destroy</a></p></div>";
+        else 
+          info = "<div class=\"infowindow\"><h2>" + want.TITLE + " が欲しい！</h2><h3>user id: " + want.USER_ID.to_s + "</h3><p>" + want.COMMENT + "</p></div>";
+        end
+      end
       marker.lat want.LATITUDE
       marker.lng want.LONGITUDE
       marker.infowindow info
