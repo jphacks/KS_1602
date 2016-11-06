@@ -14,12 +14,21 @@ html
     header
       .menubar
 
+
+        .logo
+          |  iWant 
+ 
+        .search
+          input#address style="height:2.5em" type="textbox" size="50" value ="博多"
+          input#submit type="button" value="検索"
+
         .link
           nav
             - if user_signed_in?
               |  Logged in as 
               strong
                 = current_user.email
+                br
               | . 
               = link_to 'プロフィール変更', edit_user_registration_path
               |  | 
@@ -29,13 +38,5 @@ html
               |  | 
               = link_to "ログイン", new_user_session_path
 
-        .search
-          input#address type="textbox" size="100" alue    ="博多"
-          input#submit type="button" value="検索"
-
-
-
-        .logo
-          |  iWant 
-         
+ 
     = yield
