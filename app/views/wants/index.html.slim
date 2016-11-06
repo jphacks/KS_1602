@@ -1,7 +1,7 @@
 .wrapper
   .sidebar
     h1 福岡県福岡市博多区
-
+          
     p
       tt
         |  人口&nbsp&nbsp&nbsp&nbsp
@@ -63,6 +63,9 @@
     #map style="width: 100%; height: 100%;"
       - if user_signed_in?
         javascript:
+          last_LATITUDE = #{if @last then @last["LATITUDE"] else 0};
+          last_LONGITUDE =  #{if @last then @last["LONGITUDE"] else 0};
+          
           var tokenDOM = document.getElementById("token");
           token = tokenDOM.value;
           var geocoder = new google.maps.Geocoder();
@@ -72,8 +75,14 @@
             markers = handler.addMarkers(#{raw @hash.to_json});
             handler.bounds.extendWith(markers);
             handler.fitMapToBounds();
-            handler.getMap().setCenter(new google.maps.LatLng(36.204824, 138.252924)); 
-            handler.getMap().setZoom(5);
+            if (last_LATITUDE == 0 && last_LONGITUDE == 0){
+              handler.getMap().setCenter(new google.maps.LatLng(36.204824, 138.252924)); 
+              handler.getMap().setZoom(5);
+            }
+            else{
+              handler.getMap().setCenter(new google.maps.LatLng(last_LATITUDE, last_LONGITUDE)); 
+              handler.getMap().setZoom(16);
+            }
           });
 
           handler.callback = function(){
