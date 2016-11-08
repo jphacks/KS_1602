@@ -19,7 +19,7 @@ html
             span.icon-bar
             span.icon-bar
             span.icon-bar
-          = link_to 'iWant', root_path, class: 'navbar-brand', id: 'logo'
+          = link_to 'iWant', root_path, class: 'navbar-brand menubar', id: 'logo'
         #navbar.navbar-collapse.collapse
           ul.nav.navbar-nav.navbar-right
             - if user_signed_in?
@@ -29,6 +29,4 @@ html
             - else
               li = link_to '新規登録', new_user_registration_path
               li = link_to 'ログイン', new_user_session_path
-
-    .container
-      = yield
+    = yield

@@ -3,6 +3,7 @@ source 'https://rubygems.org'
 gem 'gmaps4rails'
 gem 'slim-rails'
 gem 'html2slim'
+gem 'bootstrap-sass', '~> 3.3', '>= 3.3.7'
 
 gem 'rb-readline', '~> 0.5.3'
 
@@ -22,6 +23,9 @@ gem 'coffee-rails', '~> 4.2'
 gem 'therubyracer', platforms: :ruby
 
 gem 'devise' ,'4.2.0'
+gem 'devise-bootstrap-views', '~> 0.0.9'
+gem 'devise-i18n', '~> 1.1', '>= 1.1.1'
+gem 'devise-i18n-views', '~> 0.3.7'
 
 # Use jquery as the JavaScript library
 gem 'jquery-rails'

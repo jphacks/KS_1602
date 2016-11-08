@@ -13,6 +13,9 @@
  *= require_tree .
  *= require_self
  */
+@import "bootstrap-sprockets";
+@import "bootstrap";
+@import "devise_bootstrap_views";
 
 html{
   height: 100%;
@@ -21,6 +24,11 @@ html{
 body{
   height: 100%;
   margin: 0px;
+  padding-top: 70px;
+}
+
+.devise-bs{
+  margin-top: 30px;
 }
 
 header{
@@ -28,29 +36,23 @@ header{
 }
 
 .menubar{
-  background-color: #fff;
   width: 100%;
   height: 100%;
   display: flex;
   justify-content: space-between;
-}
-
-.menubar a {
   color: #BF1717;
 }
 
-
-
-
-
-.logo{
+#logo{
   color: #BF1717;
-  font-size: 500%;
+  font-size: 50px;
   font-weight: 800;
-  padding-left: 10px;
-  padding-top: 2%;
+  margin: 10px;
 }
 
+#logo:hover{
+  color: #DF5757;
+}
 
 .search{
   padding-top: 2%;
@@ -61,8 +63,15 @@ header{
   height: 25px;
 }
 
-
 .link{
   padding-top: 2%;
+}
 
+.navbar-right li{
+  padding: 10px;
+  padding-top: 30px;
+}
+
+.navbar-right li a{
+  padding: 0;
 }
