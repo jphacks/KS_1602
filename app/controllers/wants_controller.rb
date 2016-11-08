@@ -7,9 +7,10 @@ class WantsController < ApplicationController
   def index
     @wants = Wants.all
     @hash = Gmaps4rails.build_markers(@wants) do |want, marker|
+      info = "<div class=\"infowindow\"><h2>" + want.TITLE + " が欲しい！</h2><h3>user id: " + want.USER_ID.to_s + "</h3><p>" + want.COMMENT + "</p><p class=\"button-delete\"><a data-confirm=\"本当に削除しますか？?\" rel=\"nofollow\" data-method=\"delete\" href=\"/wants/" + want.id.to_s + "\">Destroy</a></p></div>";
       marker.lat want.LATITUDE
       marker.lng want.LONGITUDE
-      marker.infowindow want.TITLE
+      marker.infowindow info
     end
     @categories = Category.all
   end
@@ -34,7 +35,7 @@ class WantsController < ApplicationController
     @want = Wants.new(want_params)
     respond_to do |format|
       if @want.save
-        format.html { redirect_to @want, notice: 'Wants was successfully created.' }
+        format.html { redirect_to wants_path, notice: 'Wants was successfully created.' }
         format.json { render :show, status: :created, location: @want }
       else
         format.html { render :new }

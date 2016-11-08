@@ -1,58 +1,52 @@
-doctype html
+.wrapper
+  .sidebar
+    h1 福岡県福岡市博多区
+    p
+      tt
+        |  人口&nbsp&nbsp&nbsp&nbsp
+      tt
+        |  232,795人
+    p
+      tt
+        |  男女比&nbsp&nbsp&nbsp
+      tt
+        |  5:5
+    p
+      tt
+        |  年齢比
+    p
+      tt
+        |  &nbsp&nbsp10代以下&nbsp&nbsp&nbsp
+      tt
+        |  11%
+    p
+      tt
+        |  &nbsp&nbsp20代&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+      tt
+        |  12%
+    p
+      tt
+        |  &nbsp&nbsp30代&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+      tt
+        |  15%
+    p
+      tt
+        |  &nbsp&nbsp40代&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+      tt
+        |  17%
+    p
+      tt
+        |  &nbsp&nbsp50代&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+      tt
+        |  20%
+    p
+      tt
+        |  &nbsp&nbsp60代以上&nbsp&nbsp&nbsp
+      tt
+        |  25%
+    input style="margin-left: 20px; margin-bottom: 10px; width: 150px;" placeholder='キーワードで絞り込む'
 
-html
-  body
-    .wrapper
-      .sidebar
-        h1
-          |  福岡県福岡市博多区
-        p
-          tt
-            |  人口&nbsp&nbsp&nbsp&nbsp
-          tt
-            |  232,795人
-        p
-          tt
-            |  男女比&nbsp&nbsp&nbsp
-          tt
-            |  5:5
-        p
-          tt
-            |  年齢比
-          p
-            tt
-              |  &nbsp&nbsp10代以下&nbsp&nbsp&nbsp
-            tt
-              |  11%
-          p
-            tt
-              |  &nbsp&nbsp20代&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
-            tt
-              |  12%
-          p
-            tt
-              |  &nbsp&nbsp30代&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
-            tt
-              |  15%
-          p
-            tt
-              |  &nbsp&nbsp40代&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
-            tt
-              |  17%
-          p
-            tt
-              |  &nbsp&nbsp50代&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
-            tt
-              |  20%
-          p
-            tt
-              |  &nbsp&nbsp60代以上&nbsp&nbsp&nbsp
-            tt
-              |  25%
-
-        input style="margin-left: 20px; margin-bottom: 10px; width: 150px;" placeholder='キーワードで絞り込む'
-
-                table style="color: white;"
+               table style="color: white;"
                   thead
                     tr
                       th
@@ -61,49 +55,100 @@ html
                   tbody
                   - @categories.each do |c|
                     tr
-                      td 
+                      td
                         input type='checkbox' name=c.CATEDORY_ID
                       td = c.NAME
-		      
 
-      .mapview
-        #map style="width: 100%; height: 100%;"
-          javascript:
-            handler = Gmaps.build('Google'); 
-            handler.buildMap({ provider: {}, internal: {id: 'map'}}, function(){ 
-              markers = handler.addMarkers(#{raw @hash.to_json}); 
-              handler.bounds.extendWith(markers); 
-              handler.fitMapToBounds(); 
+
+
+  input id='token' type='hidden' value='#{form_authenticity_token}'
+  .mapview
+    #map style="width: 100%; height: 100%;"
+      - if user_signed_in?
+        javascript:
+          var tokenDOM = document.getElementById("token");
+          token = tokenDOM.value;
+          var geocoder = new google.maps.Geocoder();
+            
+          handler = Gmaps.build('Google');
+          handler.buildMap({ provider: {}, internal: {id: 'map'}}, function(){
+            markers = handler.addMarkers(#{raw @hash.to_json});
+            handler.bounds.extendWith(markers);
+            handler.fitMapToBounds();
+            handler.getMap().setCenter(new google.maps.LatLng(36.204824, 138.252924)); 
+            handler.getMap().setZoom(5);
+          });
+
+          handler.callback = function(){
+            google.maps.event.addListener(handler.map.serviceObject, "click", function(e){
+              var form = '<form class="new_wants" id="new_wants" action="/wants" accept-charset="UTF-8" method="post"><input name="utf8" type="hidden" value="&#x2713;" /><input type="hidden" name="authenticity_token" value="'+token+'" /><div class="field"><input type="hidden" name="wants[USER_ID]" value="'+#{if current_user then current_user.id}+'"  id="wants_USER_ID" /></div><div class="field"><label for="wants_TITLE">Title</label><input type="text" name="wants[TITLE]" id="wants_TITLE" /></div><div class="field"><label for="wants_CATEGORY_ID">Category name</label><select id="categories_id" name="wants[CATEGORY_ID]" id="wants_CATEGORY_ID" />i<option value="1">飲食関係</option><option value="2">ファッション</option><option value="3">エンタメ</option><option value="4">公共施設</option><option value="5">交通関係</option></select></div><div class="field"><label for="wants_COMMENT">Comment</label><textarea name="wants[COMMENT]" id="wants_COMMENT"></textarea></div><div class="field"><input type="hidden" name="wants[LATITUDE]" value="'+e.latLng.lat()+'"  id="wants_LATITUDE" /></div><div class="field"><input type="hidden" name="wants[LONGITUDE]" value="'+e.latLng.lng()+'"  id="wants_LONGITUDE" /></div><div class="actions"><input type="submit" name="commit" value="Create Wants" data-disable-with="Create Wants" /></div></form>';
+              markers = handler.addMarkers([
+                {
+                  "lat": e.latLng.lat(),
+                  "lng": e.latLng.lng(),
+                  "infowindow": form,
+                }
+              ]);
             });
- 
-            handler.callback = function(){
-              document.getElementById('submit').addEventListener('click',function(){
-                var geocoder = new google.maps.Geocoder();
-                geocodeAddress(geocoder,handler)
-              });
+            
+            document.getElementById('submit').addEventListener('click', function() {
+              geocodeAddress(geocoder, handler);
+            });
 
-              function geocodeAddress(geocoder,handler){
-                var address = document.getElementById('address').value;
-                geocoder.geocode({'address':address},function(results,status){              
-                  if (status == google.maps.GeocoderStatus.OK){
-                    var latlng = new google.maps.LatLng(results[0].geometry.location.lat,results[0].geometry.location.lng)
-                    handler.getMap().setCenter(results[0].geometry.location);
-                    handler.getMap().setZoom(17);
-                  }else{
-                    alert('geocode error:' + status);
-                  } 
-                });
-              }
-
-              google.maps.event.addListener(handler.map.serviceObject, "click", function(e){
-                console.log(e.latLng.lat(), e.latLng.lng());
-                markers = handler.addMarkers([
-                  {
-                    "lat": e.latLng.lat(),
-                    "lng": e.latLng.lng(),
-                    "infowindow": "<input></input><b>が欲しい!</b><br><textarea placeholder='本文'></textarea><select style='margin-left: 10px' name='category'><option>カテゴリーの選択</option><option value='飲食関係'>飲食関係</option><option value='ファッション'>ファッション</option><option value='エンタメ'>エンタメ</option><option value='公共施設'>公共施設</option><option value='交通関係'>交通関係</option></select>",
-                  }
-                ]);
+            function geocodeAddress(geocoder, resultMap) {
+              var address = document.getElementById('address').value;
+              geocoder.geocode({'address': address}, function(results, status) {
+                if (status === google.maps.GeocoderStatus.OK) {
+                  resultMap.getMap().setCenter(results[0].geometry.location);
+                  resultMap.getMap().setZoom(17);
+                } else {
+                  alert('Geocode was not successful for the following reason: ' + status);
+                }
               });
-            }();
+            }
+          }();
+
+      - else
+        javascript:
+          var tokenDOM = document.getElementById("token");
+          token = tokenDOM.value;
+          var geocoder = new google.maps.Geocoder();
+
+          handler = Gmaps.build('Google');
+          handler.buildMap({ provider: {}, internal: {id: 'map'}}, function(){
+            markers = handler.addMarkers(#{raw @hash.to_json});
+            handler.getMap().setCenter(new google.maps.LatLng(36.204824, 138.252924));
+            handler.getMap().setZoom(5);
+            handler.bounds.extendWith(markers);
+            handler.fitMapToBounds();
+          });
+
+          handler.callback = function(){
+            google.maps.event.addListener(handler.map.serviceObject, "click", function(e){
+              var form = 'ピンを建てるには'+'<a href="/users/sign_in">ログイン</a>'+'か'+'<a href="/users/sign_up">新規登録</a>'+'を行ってください'
+              markers = handler.addMarkers([
+                {
+                  "lat": e.latLng.lat(),
+                  "lng": e.latLng.lng(),
+                  "infowindow": form,
+                }
+              ]);
+            });
+
+            document.getElementById('submit').addEventListener('click', function() {
+              geocodeAddress(geocoder, handler);
+            });
+
+            function geocodeAddress(geocoder, resultMap) {
+              var address = document.getElementById('address').value;
+              geocoder.geocode({'address': address}, function(results, status) {
+                if (status === google.maps.GeocoderStatus.OK) {
+                  resultMap.getMap().setCenter(results[0].geometry.location);
+                  resultMap.getMap().setZoom(17);
+                } else {
+                  alert('Geocode was not successful for the following reason: ' + status);
+                }
+              });
+            }
+          }();
 
