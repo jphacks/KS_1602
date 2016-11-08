@@ -11,30 +11,22 @@ html
     script src="//cdn.rawgit.com/mahnunchik/markerclustererplus/master/dist/markerclusterer.min.js"
     script src='//cdn.rawgit.com/printercu/google-maps-utility-library-v3-read-only/master/infobox/src/infobox_packed.js' type='text/javascript'
   body
-    header
-      .menubar
-
-
-        .logo
-          |  iWant 
- 
-        .search
-          input#address style="height:2.5em" type="textbox" size="50" value ="博多"
-          input#submit type="button" value="検索"
-
-        .link
-          nav
+    nav.navbar.navbar-default.navbar-fixed-top
+      .container
+        .navbar-header
+          button.navbar-toggle.collapsed aria-controls="navbar" aria-expanded="false" data-target="#navbar" data-toggle="collapse" type="button"
+            span.sr-only Toggle navigation
+            span.icon-bar
+            span.icon-bar
+            span.icon-bar
+          = link_to 'iWant', root_path, class: 'navbar-brand menubar', id: 'logo'
+        #navbar.navbar-collapse.collapse
+          ul.nav.navbar-nav.navbar-right
             - if user_signed_in?
-              |  Logged in as 
-              strong
-                = current_user.email
-                br
-              | . 
-              = link_to 'プロフィール変更', edit_user_registration_path
-              |  | 
-              = link_to "ログアウト", destroy_user_session_path, method: :delete
+              li.current_user = current_user.email
+              li = link_to 'プロフィール変更', edit_user_registration_path
+              li = link_to 'ログアウト', destroy_user_session_path, method: :delete
             - else
-              = link_to "新規登録", new_user_registration_path
-              |  | 
-              = link_to "ログイン", new_user_session_path
+              li = link_to '新規登録', new_user_registration_path
+              li = link_to 'ログイン', new_user_session_path
     = yield
