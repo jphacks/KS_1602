@@ -14,8 +14,13 @@ html
     header
       .menubar
 
+
         .logo
           |  iWant 
+ 
+        .search
+          input#address style="height:2.5em" type="textbox" size="50" value ="博多"
+          input#submit type="button" value="検索"
 
         .link
           nav
@@ -32,5 +37,4 @@ html
               = link_to "新規登録", new_user_registration_path
               |  | 
               = link_to "ログイン", new_user_session_path
-    .container
-      = yield
+    = yield

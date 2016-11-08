@@ -1,4 +1,5 @@
 class WantsController < ApplicationController
+  layout 'wants'
   before_action :set_want, only: [:show, :edit, :update, :destroy]
 
   # GET /wants
