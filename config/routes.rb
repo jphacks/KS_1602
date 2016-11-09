@@ -5,6 +5,9 @@ Rails.application.routes.draw do
   resources :count_wants
   resources :categories
   resources :wants
+
+  resources :users, :only => [:show]
+
   devise_for :users
   get 'home/index'
 
