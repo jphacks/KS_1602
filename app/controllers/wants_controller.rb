@@ -1,14 +1,25 @@
 class WantsController < ApplicationController
+  layout 'wants'
   before_action :set_want, only: [:show, :edit, :update, :destroy]
 
   # GET /wants
   # GET /wants.json
   def index
+    if session[:last]
+      @last = session[:last]
+    end
     @wants = Wants.all
     @hash = Gmaps4rails.build_markers(@wants) do |want, marker|
+      if user_signed_in?
+        if current_user.id == want.USER_ID
+          info = "<div class=\"infowindow\"><h2>" + want.TITLE + " が欲しい！</h2><h3>user id: " + want.USER_ID.to_s + "</h3><p>" + want.COMMENT + "</p><p class=\"button-delete\"><a data-confirm=\"本当に削除しますか？?\" rel=\"nofollow\" data-method=\"delete\" href=\"/wants/" + want.id.to_s + "\">Destroy</a></p></div>";
+        else 
+          info = "<div class=\"infowindow\"><h2>" + want.TITLE + " が欲しい！</h2><h3>"  + view_context.link_to("user id: " + want.USER_ID.to_s , :controller => "contacts", :action => "index" ) + "</h3><p>" + want.COMMENT + "</p></div>";
+        end
+      end
       marker.lat want.LATITUDE
       marker.lng want.LONGITUDE
-      marker.infowindow want.TITLE
+      marker.infowindow info
     end
   end
 
@@ -30,8 +41,10 @@ class WantsController < ApplicationController
   # POST /wants.json
   def create
     @want = Wants.new(want_params)
+    last = {:LATITUDE => @want.LATITUDE, :LONGITUDE => @want.LONGITUDE}
     respond_to do |format|
       if @want.save
+        session[:last] = last
         format.html { redirect_to wants_path, notice: 'Wants was successfully created.' }
         format.json { render :show, status: :created, location: @want }
       else
