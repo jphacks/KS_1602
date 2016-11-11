@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161109101353) do
+ActiveRecord::Schema.define(version: 20161111123426) do
 
   create_table "categories", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "NAME"
@@ -62,9 +62,9 @@ ActiveRecord::Schema.define(version: 20161109101353) do
   end
 
   create_table "wants", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.integer  "USER_ID"
+    t.integer  "user_id"
     t.string   "TITLE"
-    t.integer  "CATEGORY_ID"
+    t.integer  "category_id"
     t.text     "COMMENT",     limit: 65535
     t.float    "LATITUDE",    limit: 24
     t.float    "LONGITUDE",   limit: 24

@@ -8,7 +8,7 @@ class WantsController < ApplicationController
     if session[:last]
       @last = session[:last]
     end
-    @wants = Wants.all
+    @wants = Want.all
     @hash = Gmaps4rails.build_markers(@wants) do |want, marker|
       if user_signed_in?
         if current_user.id == want.USER_ID
@@ -30,7 +30,7 @@ class WantsController < ApplicationController
 
   # GET /wants/new
   def new
-    @want = Wants.new
+    @want = Want.new
   end
 
   # GET /wants/1/edit
@@ -40,7 +40,7 @@ class WantsController < ApplicationController
   # POST /wants
   # POST /wants.json
   def create
-    @want = Wants.new(want_params)
+    @want = Want.new(want_params)
     last = {:LATITUDE => @want.LATITUDE, :LONGITUDE => @want.LONGITUDE}
     respond_to do |format|
       if @want.save
@@ -81,7 +81,7 @@ class WantsController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_want
-      @want = Wants.find(params[:id])
+      @want = Want.find(params[:id])
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
