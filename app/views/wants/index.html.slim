@@ -51,7 +51,7 @@
     input style="margin-left: 20px; margin-bottom: 10px; width: 150px;" placeholder='キーワードで絞り込む'
     ul style='list-style: none; color: white; padding: 0; margin-left: 15px; margin-top: 0px;'
       li style="margin-top: 10px;"
-        input type='checkbox' style="margin-right: 10px;" 飲食関係(30)
+        input type='checkbox' id="cb" onclick="cb_changed()" style="margin-right: 10px;" 飲食関係(30)
       li style="margin-top: 10px;"
         input type='checkbox' style="margin-right: 10px;" ファッション(21)
       li style="margin-top: 10px;"
@@ -68,25 +68,44 @@
         javascript:
           last_LATITUDE = #{if @last then @last["LATITUDE"] else 0};
           last_LONGITUDE =  #{if @last then @last["LONGITUDE"] else 0};
-          
+
           var tokenDOM = document.getElementById("token");
           token = tokenDOM.value;
           var geocoder = new google.maps.Geocoder();
-            
+
+          var markers = [];
+
           handler = Gmaps.build('Google');
           handler.buildMap({ provider: {}, internal: {id: 'map'}}, function(){
             markers = handler.addMarkers(#{raw @hash.to_json});
             handler.bounds.extendWith(markers);
             handler.fitMapToBounds();
             if (last_LATITUDE == 0 && last_LONGITUDE == 0){
-              handler.getMap().setCenter(new google.maps.LatLng(36.204824, 138.252924)); 
+              handler.getMap().setCenter(new google.maps.LatLng(36.204824, 138.252924));
               handler.getMap().setZoom(5);
             }
             else{
-              handler.getMap().setCenter(new google.maps.LatLng(last_LATITUDE, last_LONGITUDE)); 
+              handler.getMap().setCenter(new google.maps.LatLng(last_LATITUDE, last_LONGITUDE));
               handler.getMap().setZoom(16);
             }
           });
+
+          function cb_changed() {
+            // checkboxのElementを取得
+            var cb = document.getElementById("cb"); 
+            if (cb.checked == true) {
+              // チェックボックスがチェックされていればマーカ非表示
+              for (var i = 0; i < markers.length; i++)
+              markers[i].setMap(null);
+            } else {
+              // チェックボックスがチェックされていなければ表示
+              for (var i = 0; i < markers.length; i++)
+              // markers[i].setMap(handler);
+              console.log('hoge');
+            }
+          }
+
+             
 
           handler.callback = function(){
             google.maps.event.addListener(handler.map.serviceObject, "click", function(e){
@@ -99,7 +118,7 @@
                 }
               ]);
             });
-            
+
             document.getElementById('submit').addEventListener('click', function() {
               geocodeAddress(geocoder, handler);
             });
