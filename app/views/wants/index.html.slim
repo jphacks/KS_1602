@@ -48,21 +48,23 @@
         |  &nbsp&nbsp60代以上&nbsp&nbsp&nbsp
       tt
         |  25%
+
     input style="margin-left: 20px; margin-bottom: 10px; width: 150px;" placeholder='キーワードで絞り込む'
     ul style='list-style: none; color: white; padding: 0; margin-left: 15px; margin-top: 0px;'
+
+    p
+      tt
+        |  &nbsp&nbsp&nbspカテゴリ名&nbsp&nbsp&nbsp
     table
       thead
         tr
           th
-            | Catedory id
-          th
-            | Name
           th[colspan="3"]
       tbody
         - @categories.each do |category|
           tr
             td
-              = category.id
+              input type='checkbox' style="margin-left: 30px; margin-right: 20px; margin-top: 10px;" value="category.id"
             td
               = category.NAME
     br
