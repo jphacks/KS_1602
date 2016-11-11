@@ -8,7 +8,8 @@ class WantsController < ApplicationController
     if session[:last]
       @last = session[:last]
     end
-    @wants = Wants.all
+    @categories = Category.all
+    @wants = Want.all
     @hash = Gmaps4rails.build_markers(@wants) do |want, marker|
       if user_signed_in?
         if current_user.id == want.USER_ID
