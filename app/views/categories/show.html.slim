@@ -2,12 +2,8 @@ p#notice
   = notice
 p
   strong
-    | Catedory id:
-  = @category.CATEDORY_ID
-p
-  strong
     | Name:
-  = @category.NAME
+  = @category.name
 = link_to 'Edit', edit_category_path(@category)
 |  | 
 = link_to 'Back', categories_path

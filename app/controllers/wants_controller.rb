@@ -8,17 +8,18 @@ class WantsController < ApplicationController
     if session[:last]
       @last = session[:last]
     end
-    @wants = Wants.all
+    @categories = Category.all
+    @wants = Want.all
     @hash = Gmaps4rails.build_markers(@wants) do |want, marker|
       if user_signed_in?
-        if current_user.id == want.USER_ID
-          info = "<div class=\"infowindow\"><h2>" + want.TITLE + " が欲しい！</h2><h3>user id: " + want.USER_ID.to_s + "</h3><p>" + want.COMMENT + "</p><p class=\"button-delete\"><a data-confirm=\"本当に削除しますか？?\" rel=\"nofollow\" data-method=\"delete\" href=\"/wants/" + want.id.to_s + "\">Destroy</a></p></div>";
+        if current_user.id == want.user_id
+          info = "<div class=\"infowindow\"><h2>" + want.title + " が欲しい！</h2><h3>user id: " + want.user_id.to_s + "</h3><p>" + want.comment + "</p><p class=\"button-delete\"><a data-confirm=\"本当に削除しますか？?\" rel=\"nofollow\" data-method=\"delete\" href=\"/wants/" + want.id.to_s + "\">Destroy</a></p></div>";
         else 
-          info = "<div class=\"infowindow\"><h2>" + want.TITLE + " が欲しい！</h2><h3>"  + view_context.link_to("user id: " + want.USER_ID.to_s , :controller => "contacts", :action => "index" ) + "</h3><p>" + want.COMMENT + "</p></div>";
+          info = "<div class=\"infowindow\"><h2>" + want.title + " が欲しい！</h2><h3>"  + view_context.link_to("user id: " + want.user_id.to_s , :controller => "contacts", :action => "index" ) + "</h3><p>" + want.comment + "</p></div>";
         end
       end
-      marker.lat want.LATITUDE
-      marker.lng want.LONGITUDE
+      marker.lat want.latitude
+      marker.lng want.longitude
       marker.infowindow info
     end
   end
@@ -30,7 +31,7 @@ class WantsController < ApplicationController
 
   # GET /wants/new
   def new
-    @want = Wants.new
+    @want = Want.new
   end
 
   # GET /wants/1/edit
@@ -40,8 +41,8 @@ class WantsController < ApplicationController
   # POST /wants
   # POST /wants.json
   def create
-    @want = Wants.new(want_params)
-    last = {:LATITUDE => @want.LATITUDE, :LONGITUDE => @want.LONGITUDE}
+    @want = Want.new(want_params)
+    last = {:latitude => @want.latitude, :longitude => @want.longitude}#ここいじるかは検討
     respond_to do |format|
       if @want.save
         session[:last] = last
@@ -81,12 +82,12 @@ class WantsController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_want
-      @want = Wants.find(params[:id])
+      @want = Want.find(params[:id])
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def want_params
       #params.require(:want).permit(:USER_ID, :TITLE, :CATEGORY_ID, :COMMENT, :LATITUDE, :LONGITUDE)
-      params.require('wants').permit(:USER_ID, :TITLE, :CATEGORY_ID, :COMMENT, :LATITUDE, :LONGITUDE)
+      params.require(:want).permit(:user_id, :title, :category_id, :comment, :latitude, :longitude)
     end
 end
