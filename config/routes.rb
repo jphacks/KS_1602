@@ -7,7 +7,7 @@ Rails.application.routes.draw do
   resources :categories
   resources :wants
 
-  resources :users, :only => [:show]
+  resources :users, :only => :show
 
   get 'home/index'
 
