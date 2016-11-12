@@ -15,7 +15,7 @@ class WantsController < ApplicationController
         if current_user.id == want.user_id
           info = "<div class=\"infowindow\"><h2>" + want.title + " が欲しい！</h2><h3>user id: " + want.user_id.to_s + "</h3><p>" + want.comment + "</p><p class=\"button-delete\"><a data-confirm=\"本当に削除しますか？?\" rel=\"nofollow\" data-method=\"delete\" href=\"/wants/" + want.id.to_s + "\">Destroy</a></p></div>";
         else 
-          info = "<div class=\"infowindow\"><h2>" + want.title + " が欲しい！</h2><h3>"  + view_context.link_to("user id: " + want.user_id.to_s , :controller => "contacts", :action => "index" ) + "</h3><p>" + want.comment + "</p></div>";
+          info = "<div class=\"infowindow\"><h2>" + want.title + " が欲しい！</h2><h3>"  + view_context.link_to("user id: " + want.user_id.to_s , :controller => "users", :action => "show", :id => want.user_id ) + "</h3><p>" + want.comment + "</p></div>";
         end
       end
       marker.lat want.latitude

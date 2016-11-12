@@ -1,0 +1,8 @@
+- provide(:title, @user.id)
+
+h1
+  | My page (#{@user.id})
+
+p
+  = button_to "通話を開始", {:controller => "contacts", :action => "index"}, method: :get
+
