@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  devise_for :users
   resources :contacts
   resources :user_pages
   resources :list_goods
@@ -8,7 +9,6 @@ Rails.application.routes.draw do
 
   resources :users, :only => [:show]
 
-  devise_for :users
   get 'home/index'
 
   get 'home/show'
