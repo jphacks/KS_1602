@@ -10,10 +10,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161109101353) do
+ActiveRecord::Schema.define(version: 20161111133819) do
 
   create_table "categories", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.string   "NAME"
+    t.string   "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -23,18 +23,9 @@ ActiveRecord::Schema.define(version: 20161109101353) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "count_wants", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.integer  "IDEA"
-    t.integer  "CATEGORY_ID"
-    t.string   "TITLE"
-    t.integer  "COUNT"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
-  end
-
-  create_table "list_goods", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.integer  "WANT_ID"
-    t.integer  "USER_ID"
+  create_table "like", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.integer  "want_id"
+    t.integer  "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -62,12 +53,12 @@ ActiveRecord::Schema.define(version: 20161109101353) do
   end
 
   create_table "wants", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.integer  "USER_ID"
-    t.string   "TITLE"
-    t.integer  "CATEGORY_ID"
-    t.text     "COMMENT",     limit: 65535
-    t.float    "LATITUDE",    limit: 24
-    t.float    "LONGITUDE",   limit: 24
+    t.integer  "user_id"
+    t.string   "title"
+    t.integer  "category_id"
+    t.text     "comment",     limit: 65535
+    t.float    "latitude",    limit: 24
+    t.float    "longitude",   limit: 24
     t.datetime "created_at",                null: false
     t.datetime "updated_at",                null: false
   end
