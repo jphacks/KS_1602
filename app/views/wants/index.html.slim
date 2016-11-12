@@ -1,54 +1,15 @@
 .wrapper
   .sidebar
     .geocoder
-      input#address type="textbox" placeholder="福岡県飯塚市"
-      input#submit type="button" value="検索"
+      form class="row no-margin-right"
+        .col-sm-10.no-padding-right
+          input#address type="texbox" class="form-control" placeholder="福岡県飯塚市"
+        .col-sm-2.no-padding-left
+          input#submit type="button" class="btn btn-default" value="検索"
+
     h1 サンプル
     h1 福岡県福岡市博多区
-    p
-      tt
-        |  人口&nbsp&nbsp&nbsp&nbsp
-      tt
-        |  232,795人
-    p
-      tt
-        |  男女比&nbsp&nbsp&nbsp
-      tt
-        |  5:5
-    p
-      tt
-        |  年齢比
-    p
-      tt
-        |  &nbsp&nbsp10代以下&nbsp&nbsp&nbsp
-      tt
-        |  11%
-    p
-      tt
-        |  &nbsp&nbsp20代&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
-      tt
-        |  12%
-    p
-      tt
-        |  &nbsp&nbsp30代&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
-      tt
-        |  15%
-    p
-      tt
-        |  &nbsp&nbsp40代&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
-      tt
-        |  17%
-    p
-      tt
-        |  &nbsp&nbsp50代&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
-      tt
-        |  20%
-    p
-      tt
-        |  &nbsp&nbsp60代以上&nbsp&nbsp&nbsp
-      tt
-        |  25%
-
+<<<<<<< HEAD
     input style="margin-left: 20px; margin-bottom: 10px; width: 150px;" placeholder='キーワードで絞り込む'
     ul style='list-style: none; color: white; padding: 0; margin-left: 15px; margin-top: 0px;'
       li style="margin-top: 10px;"
@@ -61,6 +22,57 @@
         input type='checkbox' style="margin-right: 10px;" 公共施設(12)
       li style="margin-top: 10px;"
         input type='checkbox' style="margin-right: 10px;" 交通関係(8)
+=======
+    
+    .information
+      table
+        thead
+          tr
+            td 人口
+            td 232,795人
+          tr
+            td 男女比
+            td 5:5
+          tr
+            td 年齢比
+
+    .age-ratio
+      table
+        thead
+          tr
+            td.text-right 10代以下
+            td 11%
+          tr
+            td.text-right 20代
+            td 12%
+          tr
+            td.text-right 30代
+            td 15%
+          tr
+            td.text-right 40代
+            td 17%
+          tr
+            td.text-right 50代
+            td 20%
+          tr
+            td.text-right 60代以上
+            td 25%
+
+    .row
+      .col-sm-8.col-md-offset-2
+        input type="text" class="form-control input-sm" placeholder="キーワードで絞り込む"
+
+    h1 カテゴリ
+
+    .category
+      table
+        thead
+          - @categories.each do |category|
+            tr
+              td
+                input type='checkbox' value="category.id"
+              td = category.name
+>>>>>>> i86-bootstrap-to-adapt
 
   input id='token' type='hidden' value='#{form_authenticity_token}'
   .mapview
