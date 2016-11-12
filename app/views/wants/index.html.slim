@@ -9,11 +9,19 @@
 
     h1 サンプル
     h1 福岡県福岡市博多区
-
-    p   人口<span style="margin-right: 2em;"></span>232,795人
-    p   男女比<span style="margin-right: 2em;"></span>5:5
-    p   年齢比
     
+    .information
+      table
+        thead
+          tr
+            td 人口
+            td 232,795人
+          tr
+            td 男女比
+            td 5:5
+          tr
+            td 年齢比
+
     .age-ratio
       table
         thead
@@ -40,10 +48,7 @@
       .col-sm-8.col-md-offset-2
         input type="text" class="form-control input-sm" placeholder="キーワードで絞り込む"
 
-    / input style="margin-top: 20px; margin-left: 20px; margin-bottom: 10px; width: 150px;" placeholder='キーワードで絞り込む'
-    / ul style='list-style: none; color: white; padding: 0; margin-left: 15px; margin-top: 0px;'
-    .label 
-      h2 カテゴリ
+    h1 カテゴリ
 
     .category
       table
