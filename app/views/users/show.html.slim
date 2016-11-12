@@ -1,7 +1,28 @@
 - provide(:title, @user.id)
+html
+head
 
-h1
-  | My page (#{@user.id})
+  script src="https://code.jquery.com/jquery-1.11.3.min.js" 
+  script src="https://skyway.io/dist/0.3/peer.min.js" 
+  script src="https://skyway.io/dist/multiparty.min.js" 
+
+body
+  h1
+    | My Page (#{@user.id})
+  div
+    form
+      input type="text" /
+      button type="submit"  send
+    #message
+  javascript:
+
+    multiparty = new MultiParty({"key": "361a58e6-577d-4835-9614-287f9788eb47"});
+
+    $("form").on("submit", function(ev) {ev.preventDefault();var $input = $(this).find("input[type=text]");var data = $input.val();$input.val("");$("#message").append(data + "<br>");multiparty.send(data);});
+
+    multiparty.on('message', function(mesg) {$("#message").append(mesg.data + "<br>");});
+
+    multiparty.start()
 
 p
   = button_to "通話を開始", {:controller => "contacts", :action => "index"}, method: :get
