@@ -3,9 +3,9 @@
     .geocoder
       form class="row no-margin-right"
         .col-sm-10.no-padding-right
-          input type="texbox" class="form-control" placeholder="福岡県飯塚市"
+          input#address type="texbox" class="form-control" placeholder="福岡県飯塚市"
         .col-sm-2.no-padding-left
-          input class="btn btn-default" type="button" value="検索"
+          input#submit type="button" class="btn btn-default" value="検索"
 
     h1 サンプル
     h1 福岡県福岡市博多区
@@ -57,16 +57,17 @@
             tr
               td
                 input type='checkbox' value="category.id"
-              td = category.NAME
+              td = category.name
 
   input id='token' type='hidden' value='#{form_authenticity_token}'
   .mapview
     #map style="width: 100%; height: 100%;"
       - if user_signed_in?
         javascript:
-          last_LATITUDE = #{if @last then @last["LATITUDE"] else 0};
-          last_LONGITUDE =  #{if @last then @last["LONGITUDE"] else 0};
-          
+          last_LATITUDE = #{if @last then @last["latitude"] else 0};
+          last_LONGITUDE =  #{if @last then @last["longitude"] else 0};
+ 
+          console.log("hoge"); 
           var tokenDOM = document.getElementById("token");
           token = tokenDOM.value;
           var geocoder = new google.maps.Geocoder();
@@ -88,7 +89,7 @@
 
           handler.callback = function(){
             google.maps.event.addListener(handler.map.serviceObject, "click", function(e){
-              var form = '<form class="new_wants" id="new_wants" action="/wants" accept-charset="UTF-8" method="post"><input name="utf8" type="hidden" value="&#x2713;" /><input type="hidden" name="authenticity_token" value="'+token+'" /><div class="field"><input type="hidden" name="wants[USER_ID]" value="'+#{if current_user then current_user.id}+'"  id="wants_USER_ID" /></div><div class="field"><label for="wants_TITLE">Title</label><input type="text" name="wants[TITLE]" id="wants_TITLE" />が欲しい！</div><div class="field"><label for="wants_CATEGORY_ID">Category name</label><select id="categories_id" name="wants[CATEGORY_ID]" id="wants_CATEGORY_ID" />i<option value="1">飲食関係</option><option value="2">ファッション</option><option value="3">エンタメ</option><option value="4">公共施設</option><option value="5">交通関係</option></select></div><div class="field"><label for="wants_COMMENT">Comment</label><textarea name="wants[COMMENT]" id="wants_COMMENT"></textarea></div><div class="field"><input type="hidden" name="wants[LATITUDE]" value="'+e.latLng.lat()+'"  id="wants_LATITUDE" /></div><div class="field"><input type="hidden" name="wants[LONGITUDE]" value="'+e.latLng.lng()+'"  id="wants_LONGITUDE" /></div><div class="actions"><input type="submit" name="commit" value="Create Wants" data-disable-with="Create Wants" /></div></form>';
+              var form = '<form class="new_want" id="new_want" action="/wants" method="post" accept-charset="UTF-8"><input name="utf8" type="hidden" value="✓"><input name="authenticity_token" type="hidden" value="'+token+'"><label for="want_user_id"></label><input name="want[user_id]" id="want_user_id" type="hidden" value="'+#{if current_user then current_user.id}+'"><div class="field"><label for="want_title">Title</label><input name="want[title]" id="want_title" type="text">が欲しい</div><div class="field"><label for="want_category_id">Category name</label><select name="want[category_id]" id="want_categories_id"/>i<option value="1">飲食関係</option><option value="2">ファッション</option><option value="3">エンタメ</option><option value="4">公共施設</option><option value="5">交通関係</option></select></div><div class="field"><label for="want_comment">Comment</label><textarea name="want[comment]" id="want_comment"></textarea></div><label for="want_latitude"></label><input name="want[latitude]" id="want_latitude" type="hidden" value="'+e.latLng.lat()+'"><label for="want_longitude"></label><input name="want[longitude]" id="want_longitude" type="hidden" value="'+e.latLng.lng()+'"><div class="actions"><input name="commit" type="submit" value="Create Want" data-disable-with="Create Want"></div></form>';
               markers = handler.addMarkers([
                 {
                   "lat": e.latLng.lat(),
