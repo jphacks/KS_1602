@@ -1,10 +1,12 @@
 Rails.application.routes.draw do
   resources :contacts
   resources :user_pages
-  resources :list_goods
+  resources :likes
   resources :count_wants
   resources :categories
-  resources :wants
+  resources :wants do
+    resources :likes, only: [:create, :destroy]
+  end
   devise_for :users
   get 'home/index'
 

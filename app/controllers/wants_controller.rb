@@ -12,14 +12,15 @@ class WantsController < ApplicationController
     @wants = Want.all
     @hash = Gmaps4rails.build_markers(@wants) do |want, marker|
       if user_signed_in?
+        if want.like_user(current_user.id)
+          heart =  button_to want_like_path(like, want_id: want.id), method: :delete, id: "like-button", remote: true do image_tag("icon_red_heart.svg") + "<span>" + want.like_count + "</span>";
+        else  #ここのelseが機能してません
+          heart = button_to want_likes_path(want), id: "like-button", remote: true do image_tag("icon_heart.svg") + "<span>" + want.like_count + "</span>";
+        end
         if current_user.id == want.user_id
           info = "<div class=\"infowindow\"><h2>" + want.title + " が欲しい！</h2><h3>user id: " + want.user_id.to_s + "</h3><p>" + want.comment + "</p><p class=\"button-delete\"><a data-confirm=\"本当に削除しますか？?\" rel=\"nofollow\" data-method=\"delete\" href=\"/wants/" + want.id.to_s + "\">Destroy</a></p></div>";
         else 
-<<<<<<< HEAD
-          info = "<div class=\"infowindow\"><h2>" + want.TITLE + " が欲しい！</h2><h3>"  + view_context.link_to("user id: " + want.USER_ID.to_s , :controller => "contacts", :action => "index" ) + "</h3><p>" + want.COMMENT + "</p><input type=\"submit\" value= \"いいね\"></div>";
-=======
-          info = "<div class=\"infowindow\"><h2>" + want.title + " が欲しい！</h2><h3>"  + view_context.link_to("user id: " + want.user_id.to_s , :controller => "contacts", :action => "index" ) + "</h3><p>" + want.comment + "</p></div>";
->>>>>>> origin/master
+          info = "<div class=\"infowindow\"><h2>" + want.title + " が欲しい！</h2><h3>"  + view_context.link_to("user id: " + want.user_id.to_s , :controller => "contacts", :action => "index") + "</h3><p>" + want.comment + "</p>" + view_context.link_to("いいね", :controller => "likes", :action => "create") + "</div>";
         end
       end
       marker.lat want.latitude

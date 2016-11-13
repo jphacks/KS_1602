@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161111133819) do
+ActiveRecord::Schema.define(version: 20161113041833) do
 
   create_table "categories", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "name"
@@ -23,7 +23,7 @@ ActiveRecord::Schema.define(version: 20161111133819) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "like", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+  create_table "likes", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer  "want_id"
     t.integer  "user_id"
     t.datetime "created_at", null: false
@@ -61,6 +61,7 @@ ActiveRecord::Schema.define(version: 20161111133819) do
     t.float    "longitude",   limit: 24
     t.datetime "created_at",                null: false
     t.datetime "updated_at",                null: false
+    t.integer  "likes_count"
   end
 
 end
