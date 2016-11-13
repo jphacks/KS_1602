@@ -25,18 +25,18 @@ body{
   width: 300px;
   height: 100%;
   color: #fff;
+  padding-left: 10px;
+  padding-right: 10px;
 }
 
 .sidebar h1{
   font-size: 15pt;
-  margin-left: 15px;
   margin-top: 15px;
 }
 
 .sidebar p {
   margin-top: 20px;
   margin-bottom: 0px;
-  margin-left: 15px;
 }
 
 .sidebar b {
@@ -70,11 +70,12 @@ textarea#wants_COMMENT{
 }
 .geocoder{
   height: 40px;
-  margin: 10px;
+  width: 100%;
+  margin-top: 10px;
 }
 
 #address{
-  width: 95%;
+  width: 100%;
   color: black;
 }
 
@@ -100,7 +101,6 @@ table, th, td {
 }
 
 .information table{
-  margin-left: 10px;
 }
 
 .information td{
@@ -115,8 +115,8 @@ table, th, td {
 }
 
 .age-ratio td{
-  padding: 10px;
-  font-size: 22px;
+  padding: 5px;
+  font-size: 16px;
 }
 
 .category table{
