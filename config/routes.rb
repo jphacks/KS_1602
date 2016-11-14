@@ -1,11 +1,16 @@
 Rails.application.routes.draw do
+  get 'users/index'
+
+  get 'users/show'
+
   resources :contacts
-  resources :user_pages
   resources :list_goods
   resources :count_wants
   resources :categories
   resources :wants
   devise_for :users
+  resources :users, :only => [:index, :show]
+  
   get 'home/index'
 
   get 'home/show'
