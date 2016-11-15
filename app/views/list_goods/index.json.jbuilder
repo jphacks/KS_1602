@@ -1,1 +1,0 @@
-json.array! @list_goods, partial: 'list_goods/list_good', as: :list_good

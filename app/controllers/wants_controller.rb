@@ -1,7 +1,7 @@
 class WantsController < ApplicationController
   layout 'wants'
   before_action :set_want, only: [:show, :edit, :update, :destroy]
-
+  skip_before_filter :verify_authenticity_token ,:only=>[:create]
   # GET /wants
   # GET /wants.json
   def index
@@ -13,14 +13,14 @@ class WantsController < ApplicationController
     @hash = Gmaps4rails.build_markers(@wants) do |want, marker|
       if user_signed_in?
         if want.like_user(current_user.id)
-          heart =  button_to want_like_path(like, want_id: want.id), method: :delete, id: "like-button", remote: true do image_tag("icon_red_heart.svg") + "<span>" + want.like_count + "</span>";
+          heart =  button_to want_like_path(like, want_id: want.id), method: :delete, id: "like-button", remote: true + "<image src = \"icon_red_heart.svg\">" + "<span>" + want.like_count.to_s + "</span>";
         else  #ここのelseが機能してません
-          heart = button_to want_likes_path(want), id: "like-button", remote: true do image_tag("icon_heart.svg") + "<span>" + want.like_count + "</span>";
+          heart = "<input name=\"utf8\" type=\"hidden\" value=\"?\"><input name=\"authenticity_token\" type=\"hidden\" value=\"wraG8iGNeMhFcX/YstI2oq7R8fIhB/K49x47Nxt9LKuINh7wSOMmn7oNkff6QnED2QiOUD1RuxvWPcsnNniVWQ==\"> <form class= \"new_like\" id= \"new_like\" action= \"/likes\" method= \"post\" accept-charset= \"UTF-8\"><input \"user_id\" type= \"hidden\" value= \"" + current_user.id.to_s  + "\"><label for=\"user_id\"></label><input name= \"want\" type= \"hidden\" value= \"" + want.id.to_s + "\"><label for= \"want_id\"></label>";
         end
         if current_user.id == want.user_id
           info = "<div class=\"infowindow\"><h2>" + want.title + " が欲しい！</h2><h3>user id: " + want.user_id.to_s + "</h3><p>" + want.comment + "</p><p class=\"button-delete\"><a data-confirm=\"本当に削除しますか？?\" rel=\"nofollow\" data-method=\"delete\" href=\"/wants/" + want.id.to_s + "\">Destroy</a></p></div>";
         else 
-          info = "<div class=\"infowindow\"><h2>" + want.title + " が欲しい！</h2><h3>"  + view_context.link_to("user id: " + want.user_id.to_s , :controller => "contacts", :action => "index") + "</h3><p>" + want.comment + "</p>" + view_context.link_to("いいね", :controller => "likes", :action => "create") + "</div>";
+          info = "<div class=\"infowindow\"><h2>" + want.title + " が欲しい！</h2><h3>"  + view_context.link_to("user id: " + want.user_id.to_s , :controller => "contacts", :action => "index") + "</h3><p>" + want.comment + "</p></div>" + heart + "<div class=\"action\"><input name=\"submit" type=\"submit\" value=\"いいね\" data-disable-with=\"Create Like\"></div>";
         end
       end
       marker.lat want.latitude
