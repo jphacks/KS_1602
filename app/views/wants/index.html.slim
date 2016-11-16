@@ -9,7 +9,7 @@
 
     h1 （実装イメージ）
     h1 福岡県福岡市博多区
-    
+
     .information
       table
         thead
@@ -56,7 +56,7 @@
           - @categories.each do |category|
             tr
               td
-                input type='checkbox' value="category.id"
+                input type='checkbox' class="cb" value="#{category.id}" checked=""
               td = category.name
 
   input id='token' type='hidden' value='#{form_authenticity_token}'
@@ -66,25 +66,48 @@
         javascript:
           last_LATITUDE = #{if @last then @last["latitude"] else 0};
           last_LONGITUDE =  #{if @last then @last["longitude"] else 0};
- 
-          console.log("hoge"); 
           var tokenDOM = document.getElementById("token");
           token = tokenDOM.value;
           var geocoder = new google.maps.Geocoder();
-            
+          var markers = [];
           handler = Gmaps.build('Google');
           handler.buildMap({ provider: {}, internal: {id: 'map'}}, function(){
             markers = handler.addMarkers(#{raw @hash.to_json});
+            var wants = #{raw @wants.to_json};
+            var index=0
+            markers = markers.map(function(m){
+              m.category_id = wants[index].category_id;
+              index++;
+              return m;
+            });
+
             handler.bounds.extendWith(markers);
             handler.fitMapToBounds();
             if (last_LATITUDE == 0 && last_LONGITUDE == 0){
-              handler.getMap().setCenter(new google.maps.LatLng(36.204824, 138.252924)); 
+              handler.getMap().setCenter(new google.maps.LatLng(36.204824, 138.252924));
               handler.getMap().setZoom(5);
             }
             else{
-              handler.getMap().setCenter(new google.maps.LatLng(last_LATITUDE, last_LONGITUDE)); 
+              handler.getMap().setCenter(new google.maps.LatLng(last_LATITUDE, last_LONGITUDE));
               handler.getMap().setZoom(16);
             }
+          });
+
+          $(function(){
+            $(".cb").change(function(){
+              var id = $(this).val();
+              if ($(this).prop('checked')){
+                for (var i = 0; i < markers.length; i++){
+                  if(id != markers[i].category_id)continue;
+									markers[i].setMap(handler.getMap())
+                }
+              } else{
+                for (var i = 0; i < markers.length; i++){
+                  if(id != markers[i].category_id)continue;
+                  markers[i].setMap(null);
+                }
+              }
+            });
           });
 
           handler.callback = function(){
@@ -98,7 +121,7 @@
                 }
               ]);
             });
-            
+
             document.getElementById('submit').addEventListener('click', function() {
               geocodeAddress(geocoder, handler);
             });
