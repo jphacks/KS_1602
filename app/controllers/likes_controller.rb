@@ -1,6 +1,6 @@
 class LikesController < ApplicationController
   before_action :set_like, only: [:show, :edit, :update, :destroy]
-
+  skip_before_filter :verify_authenticity_token ,:only=>[:create]
   # GET /likes
   # GET /likes.json
   def index
@@ -24,6 +24,7 @@ class LikesController < ApplicationController
   # POST /likes
   # POST /likes.json
   def create
+    params.permit!
     @like = Like.new(like_params)
     @likes = Like.where(want_id: params[:want_id])
     @wants = Want.all
