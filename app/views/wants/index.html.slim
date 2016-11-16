@@ -66,8 +66,8 @@
         javascript:
           last_LATITUDE = #{if @last then @last["latitude"] else 0};
           last_LONGITUDE =  #{if @last then @last["longitude"] else 0};
- 
-          console.log("hoge"); 
+          var flagNewMarkerAdded = 0;
+          var newMarker;
           var tokenDOM = document.getElementById("token");
           token = tokenDOM.value;
           var geocoder = new google.maps.Geocoder();
@@ -90,13 +90,19 @@
           handler.callback = function(){
             google.maps.event.addListener(handler.map.serviceObject, "click", function(e){
               var form = '<form class="new_want" id="new_want" action="/wants" method="post" accept-charset="UTF-8"><input name="utf8" type="hidden" value="✓"><input name="authenticity_token" type="hidden" value="'+token+'"><label for="want_user_id"></label><input name="want[user_id]" id="want_user_id" type="hidden" value="'+#{if current_user then current_user.id}+'"><div class="field"><label for="want_title">Title</label><input name="want[title]" id="want_title" type="text">が欲しい</div><div class="field"><label for="want_category_id">Category name</label><select name="want[category_id]" id="want_categories_id"/>i<option value="1">飲食関係</option><option value="2">ファッション</option><option value="3">エンタメ</option><option value="4">公共施設</option><option value="5">交通関係</option></select></div><div class="field"><label for="want_comment">Comment</label><textarea name="want[comment]" id="want_comment"></textarea></div><label for="want_latitude"></label><input name="want[latitude]" id="want_latitude" type="hidden" value="'+e.latLng.lat()+'"><label for="want_longitude"></label><input name="want[longitude]" id="want_longitude" type="hidden" value="'+e.latLng.lng()+'"><div class="actions"><input name="commit" type="submit" value="Create Want" data-disable-with="Create Want"></div></form>';
-              markers = handler.addMarkers([
+              if (flagNewMarkerAdded == 0){
+                flagNewMarkerAdded = 1;
+              } else {
+                handler.removeMarkers(newMarker);
+              }
+              newMarker = handler.addMarkers([
                 {
                   "lat": e.latLng.lat(),
                   "lng": e.latLng.lng(),
                   "infowindow": form,
                 }
               ]);
+
             });
             
             document.getElementById('submit').addEventListener('click', function() {
