@@ -6,6 +6,7 @@
   margin-top: 100px;
   margin-left: 50px;
   margin-right: 50px;
+  margin-bottom: 20px;
   background-color: #EEE;
 }
 
@@ -65,3 +66,6 @@
   font-weight: bold;
 }
 
+div.no-padding-right{
+  padding-right: 0px;
+}

@@ -50,9 +50,11 @@ html
       #message
       center
         div
-          form class="row"
-            input type="text" id="userinput" class="col-xs-10"/
-            button type="submit" class="col-xs-2 btn btn-primary" send
+          form
+            .form-group.row
+              .col-xs-10.no-padding-right
+                input type="text" id="userinput" class="form-control" placeholder="Input your message" /
+              button type="submit" class="col-xs-2 btn btn-success" send
     javascript:
     
       multiparty = new MultiParty({"key": "361a58e6-577d-4835-9614-287f9788eb47"});

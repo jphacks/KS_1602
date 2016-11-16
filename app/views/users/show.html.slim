@@ -9,13 +9,14 @@ head
 body
 
   div
-    div.icon
+    .icon
       img src="/assets/icon.jpg" width="150" height="150" /
-    h3
+    p.h3
       | UserID : #{@user.id}
-    h3
+    p.h3
       | Email : #{@user.email}
 
-  p
-    = button_to "コンタクトを取る", {:controller => "contacts", :action => "index"}, method: :get
+  p.contact-button
+    = button_to "コンタクトを取る", {:controller => "contacts", :action => "index"}, class: "btn btn-success", method: :get
+
 
