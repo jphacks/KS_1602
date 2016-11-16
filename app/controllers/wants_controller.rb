@@ -22,6 +22,8 @@ class WantsController < ApplicationController
         else 
           info = "<div class=\"infowindow\"><h2>" + want.title + " が欲しい！</h2><h3>"  + view_context.link_to("user id: " + want.user_id.to_s , :controller => "contacts", :action => "index") + "</h3><p>" + want.comment + "</p></div>" + heart + "<div class=\"action\"><input name=\"submit\" type=\"submit\" value=\"いいね\" data-disable-with=\"Create Like\"></div>";
         end
+      else
+        info = "<p>ピンを建てるには<a href=\"/users/sign_in\">ログイン</a>か<a href=\"/users/sign_up\">新規登録</a>を行ってください</p>"
       end
       marker.lat want.latitude
       marker.lng want.longitude
