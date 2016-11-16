@@ -13,8 +13,6 @@ body
       img src="/assets/icon.jpg" width="150" height="150" /
     p.h3
       | UserID : #{@user.id}
-    p.h3
-      | Email : #{@user.email}
 
   p.contact-button
     = button_to "コンタクトを取る", {:controller => "contacts", :action => "index"}, class: "btn btn-success", method: :get
