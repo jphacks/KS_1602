@@ -11,10 +11,10 @@ class WantsController < ApplicationController
     @wants = Want.all
     @hash = Gmaps4rails.build_markers(@wants) do |want, marker|
       if user_signed_in?
-        if want.like_user(current_user.id)
-          # heart =  button_to want_like_path(like, want_id: want.id), method: :delete, id: "like-button", remote: true + "<image src = \"icon_red_heart.svg\">" + "<span>" + want.like_count.to_s + "</span>";
-        else  #ここのelseが機能してません
-          user_id = current_user.id;
+        if want.like_user(current_user.id)#いいねをしてあるひと
+          like = Like.find()
+          heart =  "<input name=\"utf8\" type=\"hidden\" value=\"?\"><form class= \"like\" id= \"like\" action= \"/likes/delete\" method= \"delete\" accept-charset= \"UTF-8\"><input name=\"like[user_id]\" id=\"like_user_id\" \" type= \"hidden\" value= \""+current_user.id.to_s+"\"><label for=\"user_id\"></label><input name= \"like[want_id]\" id=\"like_want_id\"type=\"hidden\" value= \""+want.id.to_s+"\"><label for= \"want_id\"></label>";
+        else   #いいねをしてない人
           heart = "<input name=\"utf8\" type=\"hidden\" value=\"?\"><input type=\"hidden\" name=\"authenticity_token\" value=\"form_authenticity_token\"><form class= \"like\" id= \"like\" action= \"/likes\" method= \"post\" accept-charset= \"UTF-8\"><input name=\"like[user_id]\" id=\"like_user_id\" \" type= \"hidden\" value= \""+current_user.id.to_s+"\"><label for=\"user_id\"></label><input name= \"like[want_id]\" id=\"like_want_id\"type=\"hidden\" value= \""+want.id.to_s+"\"><label for= \"want_id\"></label>";
         end
         if current_user.id == want.user_id
