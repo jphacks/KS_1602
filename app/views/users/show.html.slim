@@ -7,23 +7,15 @@ head
   script src="https://skyway.io/dist/multiparty.min.js" 
 
 body
-  h1
-    | My Page (#{@user.id})
+
   div
-    form
-      input type="text" /
-      button type="submit"  send
-    #message
-  javascript:
+    div.icon
+      img src="/assets/icon.jpg" width="150" height="150" /
+    h3
+      | UserID : #{@user.id}
+    h3
+      | Email : #{@user.email}
 
-    multiparty = new MultiParty({"key": "361a58e6-577d-4835-9614-287f9788eb47"});
-
-    $("form").on("submit", function(ev) {ev.preventDefault();var $input = $(this).find("input[type=text]");var data = $input.val();$input.val("");$("#message").append(data + "<br>");multiparty.send(data);});
-
-    multiparty.on('message', function(mesg) {$("#message").append(mesg.data + "<br>");});
-
-    multiparty.start()
-
-p
-  = button_to "通話を開始", {:controller => "contacts", :action => "index"}, method: :get
+  p
+    = button_to "コンタクトを取る", {:controller => "contacts", :action => "index"}, method: :get
 
