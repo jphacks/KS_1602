@@ -1,20 +1,21 @@
 html
   head
     title
-      | PeerJS - Video chat example
+      | Contact User
     link[rel="stylesheet" href="style.css"]
     script[type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"]
     script[type="text/javascript" src="https://skyway.io/dist/0.3/peer.js"]
+    script[type="text/javascript" src="https://skyway.io/dist/multiparty.min.js"]
     script
       |  navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia; var peer = new Peer({ key: '361a58e6-577d-4835-9614-287f9788eb47', debug: 3}); peer.on('open', function(){ $('#my-id').text(peer.id); }); peer.on('call', function(call){ call.answer(window.localStream); step3(call); }); peer.on('error', function(err){ alert(err.message); step2(); }); $(function(){ $('#make-call').click(function(){ var call = peer.call($('#callto-id').val(), window.localStream); step3(call); }); $('#end-call').click(function(){ window.existingCall.close(); step2(); }); $('#step1-retry').click(function(){ $('#step1-error').hide(); step1(); }); step1(); }); function step1 () { navigator.getUserMedia({audio: true, video: true}, function(stream){ $('#my-video').prop('src', URL.createObjectURL(stream)); window.localStream = stream; step2(); }, function(){ $('#step1-error').show(); }); } function step2 () { $('#step1, #step3').hide(); $('#step2').show(); } function step3 (call) { if (window.existingCall) { window.existingCall.close(); } call.on('stream', function(stream){ $('#their-video').prop('src', URL.createObjectURL(stream)); }); window.existingCall = call; $('#their-id').text(call.peer); call.on('close', step2); $('#step1, #step2').hide(); $('#step3').show(); } 
   body
     .pure-g
       #video-container.pure-u-2-3
-        video#their-video[autoplay]
-        video#my-video[muted="true" autoplay]
+         video#their-video[autoplay]
+         video#my-video[muted="true" autoplay]
       .pure-u-1-3
         h2
-          | PeerJS Video Chat
+          | Contact User
         #step1
           p
             | Please click `allow` on the top of the screen so we can access your webcam and microphone for calls.
@@ -22,14 +23,14 @@ html
             p
               | Failed to access the webcam and microphone. Make sure to run this demo on an http server and click allow when asked for permission by the browser.
             a#step1-retry.pure-button.pure-button-error[href="#"]
-              | Try again
+               | Try again
         #step2
           p
             | Your id: 
             span#my-id
               | ...
           p
-            | Share this id with others so they can call you.
+            | Share this id with idea man so they can call you.
           h3
             | Make a call
           .pure-form
@@ -39,8 +40,28 @@ html
         #step3
           p
             | Currently in call with 
-            span#their-id
+              span#their-id
               | ...
           p
             a#end-call.pure-button.pure-button-error[href="#"]
               | End call
+
+    .messagebox
+      #message
+      center
+        div
+          form
+            .form-group.row
+              .col-xs-10.no-padding-right
+                input type="text" id="userinput" class="form-control" placeholder="Input your message" /
+              button type="submit" class="col-xs-2 btn btn-success" send
+    javascript:
+    
+      multiparty = new MultiParty({"key": "361a58e6-577d-4835-9614-287f9788eb47"});
+    
+      $("form").on("submit", function(ev) {ev.preventDefault();var $input = $(this).find("input[type=text]");var data = $input.val();$input.val("");$("#message").append(data + "<br>");multiparty.send(data);});
+ 
+      multiparty.on('message', function(mesg) {$("#message").append(mesg.data + "<br>");});
+    
+      multiparty.start()
+
