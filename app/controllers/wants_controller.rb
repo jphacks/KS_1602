@@ -12,8 +12,9 @@ class WantsController < ApplicationController
     @hash = Gmaps4rails.build_markers(@wants) do |want, marker|
       if user_signed_in?
         if want.like_user(current_user.id)#いいねをしてあるひと
-          like = Like.find()
-          heart =  "<input name=\"utf8\" type=\"hidden\" value=\"?\"><form class= \"like\" id= \"like\" action= \"/likes/delete\" method= \"delete\" accept-charset= \"UTF-8\"><input name=\"like[user_id]\" id=\"like_user_id\" \" type= \"hidden\" value= \""+current_user.id.to_s+"\"><label for=\"user_id\"></label><input name= \"like[want_id]\" id=\"like_want_id\"type=\"hidden\" value= \""+want.id.to_s+"\"><label for= \"want_id\"></label>";
+          like = Like.find_by(user_id: current_user.id, want_id: want.id)
+          heart =  "<a rel=\"nofollow\" data-method=\"delete\" href=\"/likes/"+like.id.to_s+"\">取り消し！</a>"
+          # <input name=\"utf8\" type=\"hidden\" value=\"?\"><form class= \"like\" id= \"like\" action= \"/likes/delete\" method= \"delete\" accept-charset= \"UTF-8\"><input name=\"like[user_id]\" id=\"like_user_id\" \" type= \"hidden\" value= \""+current_user.id.to_s+"\"><label for=\"user_id\"></label><input name= \"like[want_id]\" id=\"like_want_id\"type=\"hidden\" value= \""+want.id.to_s+"\"><label for= \"want_id\"></label>";
         else   #いいねをしてない人
           heart = "<input name=\"utf8\" type=\"hidden\" value=\"?\"><input type=\"hidden\" name=\"authenticity_token\" value=\"form_authenticity_token\"><form class= \"like\" id= \"like\" action= \"/likes\" method= \"post\" accept-charset= \"UTF-8\"><input name=\"like[user_id]\" id=\"like_user_id\" \" type= \"hidden\" value= \""+current_user.id.to_s+"\"><label for=\"user_id\"></label><input name= \"like[want_id]\" id=\"like_want_id\"type=\"hidden\" value= \""+want.id.to_s+"\"><label for= \"want_id\"></label>";
         end
