@@ -77,7 +77,6 @@
           last_LATITUDE = #{if @last then @last["latitude"] else 0};
           last_LONGITUDE =  #{if @last then @last["longitude"] else 0};
  
-          console.log("hoge"); 
           var tokenDOM = document.getElementById("token");
           token = tokenDOM.value;
           var geocoder = new google.maps.Geocoder();
