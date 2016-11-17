@@ -1,5 +1,5 @@
 .wrapper
-  .sidebar
+  .hidden-xs.sidebar
     .geocoder
       form class="row no-margin-right"
         .col-sm-10.no-padding-right
@@ -60,7 +60,7 @@
               td = category.name
 
   input id='token' type='hidden' value='#{form_authenticity_token}'
-  .mapview
+  .col-xs-12.mapview
     #map style="width: 100%; height: 100%;"
       - if user_signed_in?
         javascript:
