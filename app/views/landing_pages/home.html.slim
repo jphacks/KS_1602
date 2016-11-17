@@ -1,0 +1,31 @@
+.landing
+  center
+    h1.display-1.space2 iWantがあなたの"欲しい"を実現します
+
+    iframe.space1[width="560" height="315" src="https://www.youtube.com/embed/Lhr0E8ieWzQ" frameborder="0" allowfullscreen]
+
+    form.form-inline.space2
+      .form-group
+        h1.space-object 1.あなたの欲しいを教えてください
+        h3.space-object「これが欲しい！」と思ったことを投稿してください
+      .form-group
+        img.space-object src="/assets/post.jpg" width="480px" height="320px"
+
+    form.form-inline.space2
+     .form-group
+        img.space-object src="/assets/chat.jpg" width="480px" height="320px"
+     .form-group
+        h1.space-object 2.あなたの欲しいを誰かが見つける
+        h3.space-object 事業者に欲しいものを詳細に伝えてください
+ 
+      
+    form.form-inline.space2
+      .form-group
+        h1.space-object 3.あなたの欲しいがやってくる
+        h3.space-object あなたの欲しいで生活が豊かになります
+      .form-group
+        img.space-object src="/assets/dream.jpg" width="480px" height="320px"
+
+    p.space-button
+      = button_to "iWantを使ってみる", {:controller => "wants", :action => "index"}, class: "btn btn-primary btn-lg btn-block space-button", method: :get 
+ 
