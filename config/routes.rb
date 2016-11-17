@@ -1,11 +1,14 @@
 Rails.application.routes.draw do
+  devise_for :users
   resources :contacts
   resources :user_pages
   resources :list_goods
   resources :count_wants
   resources :categories
   resources :wants
-  devise_for :users
+
+  resources :users, :only => :show
+
   get 'home/index'
 
   get 'home/show'

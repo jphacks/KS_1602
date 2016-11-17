@@ -9,7 +9,7 @@
    div style="height: 91%; margin-right: -4%; overflow-y:scroll;"
     h1 （実装イメージ）
     h1 福岡県福岡市博多区
-    
+
     .information
       table
         thead
@@ -56,7 +56,7 @@
           - @categories.each do |category|
             tr
               td
-                input type='checkbox' value="category.id"
+                input type='checkbox' class="cb" value="#{category.id}" checked=""
               td = category.name
 
   input id='token' type='hidden' value='#{form_authenticity_token}'
@@ -66,39 +66,70 @@
         javascript:
           last_LATITUDE = #{if @last then @last["latitude"] else 0};
           last_LONGITUDE =  #{if @last then @last["longitude"] else 0};
- 
-          console.log("hoge"); 
+          var flagNewMarkerAdded = 0;
+          var newMarker;
           var tokenDOM = document.getElementById("token");
           token = tokenDOM.value;
           var geocoder = new google.maps.Geocoder();
-            
+          var markers = [];
           handler = Gmaps.build('Google');
           handler.buildMap({ provider: {}, internal: {id: 'map'}}, function(){
             markers = handler.addMarkers(#{raw @hash.to_json});
+            var wants = #{raw @wants.to_json};
+            var index=0
+            markers = markers.map(function(m){
+              m.category_id = wants[index].category_id;
+              index++;
+              return m;
+            });
+
             handler.bounds.extendWith(markers);
             handler.fitMapToBounds();
             if (last_LATITUDE == 0 && last_LONGITUDE == 0){
-              handler.getMap().setCenter(new google.maps.LatLng(36.204824, 138.252924)); 
+              handler.getMap().setCenter(new google.maps.LatLng(36.204824, 138.252924));
               handler.getMap().setZoom(5);
             }
             else{
-              handler.getMap().setCenter(new google.maps.LatLng(last_LATITUDE, last_LONGITUDE)); 
+              handler.getMap().setCenter(new google.maps.LatLng(last_LATITUDE, last_LONGITUDE));
               handler.getMap().setZoom(16);
             }
+          });
+
+          $(function(){
+            $(".cb").change(function(){
+              var id = $(this).val();
+              if ($(this).prop('checked')){
+                for (var i = 0; i < markers.length; i++){
+                  if(id != markers[i].category_id)continue;
+									markers[i].setMap(handler.getMap())
+                }
+              } else{
+                for (var i = 0; i < markers.length; i++){
+                  if(id != markers[i].category_id)continue;
+                  markers[i].setMap(null);
+                }
+              }
+            });
           });
 
           handler.callback = function(){
             google.maps.event.addListener(handler.map.serviceObject, "click", function(e){
               var form = '<form class="new_want" id="new_want" action="/wants" method="post" accept-charset="UTF-8"><input name="utf8" type="hidden" value="✓"><input name="authenticity_token" type="hidden" value="'+token+'"><label for="want_user_id"></label><input name="want[user_id]" id="want_user_id" type="hidden" value="'+#{if current_user then current_user.id}+'"><div class="field"><label for="want_title">Title</label><input name="want[title]" id="want_title" type="text">が欲しい</div><div class="field"><label for="want_category_id">Category name</label><select name="want[category_id]" id="want_categories_id"/>i<option value="1">飲食関係</option><option value="2">ファッション</option><option value="3">エンタメ</option><option value="4">公共施設</option><option value="5">交通関係</option></select></div><div class="field"><label for="want_comment">Comment</label><textarea name="want[comment]" id="want_comment"></textarea></div><label for="want_latitude"></label><input name="want[latitude]" id="want_latitude" type="hidden" value="'+e.latLng.lat()+'"><label for="want_longitude"></label><input name="want[longitude]" id="want_longitude" type="hidden" value="'+e.latLng.lng()+'"><div class="actions"><input name="commit" type="submit" value="Create Want" data-disable-with="Create Want"></div></form>';
-              markers = handler.addMarkers([
+              if (flagNewMarkerAdded == 0){
+                flagNewMarkerAdded = 1;
+              } else {
+                handler.removeMarkers(newMarker);
+              }
+              newMarker = handler.addMarkers([
                 {
                   "lat": e.latLng.lat(),
                   "lng": e.latLng.lng(),
                   "infowindow": form,
                 }
               ]);
+
             });
-            
+
             document.getElementById('submit').addEventListener('click', function() {
               geocodeAddress(geocoder, handler);
             });
