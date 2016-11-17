@@ -16,18 +16,32 @@ div.landing{
   width: 100%;
 }
 
-.space1 {
+.space-object {
+  margin: 20px;
+}
+
+.space {
   margin-top: 50px;
 }
 
-.space2 {
-  margin-top: 100px;
-}
-
-.space-object {
-  margin: 15px;
-}
-
 .space-button {
-  margin-top: 100px;
+  padding-bottom: 25px;
+}
+
+.section-white{
+  margin-top: 50px;
+  margin-bottom: 50px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  background-color: #FFF;
+  color: #BF1717;
+}
+
+.section-red{
+  margin-top: 50px;
+  margin-bottom: 50px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  background-color: #BF1717;
+  color: #FFF;
 }
