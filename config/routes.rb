@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  get 'landing_pages/home'
+
   devise_for :users
   resources :contacts
   resources :user_pages
@@ -15,7 +17,7 @@ Rails.application.routes.draw do
 
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 
-  root to: "wants#index"
+  root to: "landing_pages#home"
 
 
 end
