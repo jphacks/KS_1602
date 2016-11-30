@@ -28,16 +28,18 @@ class LikesController < ApplicationController
     @like = Like.new(like_params)
     @likes = Like.where(want_id: params[:want_id])
     @wants = Want.all
+    
 
-    respond_to do |format|
+#    respond_to do |format|
       if @like.save
-        format.html { redirect_to @like, notice: 'Like was successfully created.' }
-        format.json { render :show, status: :created, location: @like }
+        redirect_to controller: 'wants', action: 'index'        
+#format.html { redirect_to @like, notice: 'Like was successfully created.' }
+        #format.json { render :show, status: :created, location: @like }
       else
         format.html { render :new }
         format.json { render json: @like.errors, status: :unprocessable_entity }
       end
-    end
+ #   end
   end
 
   # PATCH/PUT /likes/1
@@ -58,10 +60,11 @@ class LikesController < ApplicationController
   # DELETE /likes/1.json
   def destroy
     @like.destroy
-    respond_to do |format|
-      format.html { redirect_to likes_url, notice: 'Like was successfully destroyed.' }
-      format.json { head :no_content }
-    end
+    redirect_to controller: 'wants', action: 'index'        
+    #respond_to do |format|       
+     # format.html { redirect_to likes_url, notice: 'Like was successfully destroyed.' }
+      #format.json { head :no_content }
+    #end
   end
 
   private

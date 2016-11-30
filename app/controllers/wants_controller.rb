@@ -13,15 +13,15 @@ class WantsController < ApplicationController
       if user_signed_in?
         if want.like_user(current_user.id)#いいねをしてあるひと
           like = Like.find_by(user_id: current_user.id, want_id: want.id)
-          heart =  "<a rel=\"nofollow\" data-method=\"delete\" href=\"/likes/"+like.id.to_s+"\">取り消し！</a>"
+          heart =  "<a rel=\"nofollow\" data-method=\"delete\" href=\"/likes/"+like.id.to_s+"\"><BUTTON type=\"submit\" style=\"border :0px none; background-color :#ffffff\"><img src=\"/assets/like.png\"></BUTTON></a>"+want.likes_count.to_s
           # <input name=\"utf8\" type=\"hidden\" value=\"?\"><form class= \"like\" id= \"like\" action= \"/likes/delete\" method= \"delete\" accept-charset= \"UTF-8\"><input name=\"like[user_id]\" id=\"like_user_id\" \" type= \"hidden\" value= \""+current_user.id.to_s+"\"><label for=\"user_id\"></label><input name= \"like[want_id]\" id=\"like_want_id\"type=\"hidden\" value= \""+want.id.to_s+"\"><label for= \"want_id\"></label>";
         else   #いいねをしてない人
-          heart = "<input name=\"utf8\" type=\"hidden\" value=\"?\"><input type=\"hidden\" name=\"authenticity_token\" value=\"form_authenticity_token\"><form class= \"like\" id= \"like\" action= \"/likes\" method= \"post\" accept-charset= \"UTF-8\"><input name=\"like[user_id]\" id=\"like_user_id\" \" type= \"hidden\" value= \""+current_user.id.to_s+"\"><label for=\"user_id\"></label><input name= \"like[want_id]\" id=\"like_want_id\"type=\"hidden\" value= \""+want.id.to_s+"\"><label for= \"want_id\"></label>";
+          heart = "<input name=\"utf8\" type=\"hidden\" value=\"?\"><input type=\"hidden\" name=\"authenticity_token\" value=\"form_authenticity_token\"><form class= \"like\" id= \"like\" action= \"/likes\" method= \"post\" accept-charset= \"UTF-8\"><input name=\"like[user_id]\" id=\"like_user_id\" \" type= \"hidden\" value= \""+current_user.id.to_s+"\"><label for=\"user_id\"></label><input name= \"like[want_id]\" id=\"like_want_id\"type=\"hidden\" value= \""+want.id.to_s+"\"><label for= \"want_id\"></label><BUTTON type=\"submit\" style=\"border :0px none; background-color :#ffffff\"><img src=\"/assets/like_brack.png\"></BUTTON>"+want.likes_count.to_s;
         end
         if current_user.id == want.user_id
           info = "<div class=\"infowindow\"><h2>" + want.title + " が欲しい！</h2><h3>user id: " + want.user_id.to_s + "</h3><p>" + want.comment + "</p><p class=\"button-delete\"><a data-confirm=\"本当に削除しますか？?\" rel=\"nofollow\" data-method=\"delete\" href=\"/wants/" + want.id.to_s + "\">Destroy</a></p></div>";
         else 
-          info = "<div class=\"infowindow\"><h2>" + want.title + " が欲しい！</h2><h3>"  + view_context.link_to("user id: " + want.user_id.to_s , :controller => "contacts", :action => "index") + "</h3><p>" + want.comment + "</p></div>" + heart + "<div class=\"action\"><input name=\"submit\" type=\"submit\" value=\"いいね\" data-disable-with=\"Create Like\"></div>";
+          info = "<div class=\"infowindow\"><h2>" + want.title + " が欲しい！</h2><h3>"  + view_context.link_to("user id: " + want.user_id.to_s , :controller => "contacts", :action => "index") + "</h3><p>" + want.comment + "</p></div>" + heart;
         end
       else
         info = "<p>ピンを建てるには<a href=\"/users/sign_in\">ログイン</a>か<a href=\"/users/sign_up\">新規登録</a>を行ってください</p>"
