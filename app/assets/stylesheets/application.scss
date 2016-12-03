@@ -36,7 +36,6 @@ header{
 }
 
 .menubar{
-  width: 100%;
   height: 100%;
   display: flex;
   justify-content: space-between;
@@ -74,4 +73,8 @@ header{
 
 .navbar-right li a{
   padding: 0;
+}
+
+ul.navbar-right{
+  margin-right: 0px;
 }

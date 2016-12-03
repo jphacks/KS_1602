@@ -1,0 +1,47 @@
+// Place all the styles related to the LandingPages controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+html body{
+  background-color: #BF1717;
+  color: #FFF;
+}
+
+h1 {
+  font-weight: bold;
+}
+
+div.landing{
+  height: 100%;
+  width: 100%;
+}
+
+.space-object {
+  margin: 20px;
+}
+
+.space {
+  margin-top: 50px;
+}
+
+.space-button {
+  padding-bottom: 30px;
+}
+
+.section-white{
+  margin-top: 50px;
+  margin-bottom: 50px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  background-color: #FFF;
+  color: #BF1717;
+}
+
+.section-red{
+  margin-top: 50px;
+  margin-bottom: 50px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  background-color: #BF1717;
+  color: #FFF;
+}
