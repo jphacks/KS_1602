@@ -1,5 +1,4 @@
 - provide(:title, @user.id)
-html
 head
 
   script src="https://code.jquery.com/jquery-1.11.3.min.js" 
@@ -8,13 +7,13 @@ head
 
 body
 
-  div
-    .icon
+  .back
+    div
       img src="/assets/icon.jpg" width="150" height="150" /
-    p.h3
+    .userid
       | UserID : #{@user.id}
 
-  p.contact-button
-    = button_to "コンタクトを取る", {:controller => "contacts", :action => "index"}, class: "btn btn-success", method: :get
+    p.contact-button
+      = button_to "コンタクトを取る", {:controller => "contacts", :action => "index"}, class: "btn btn-success", method: :get
 
 
