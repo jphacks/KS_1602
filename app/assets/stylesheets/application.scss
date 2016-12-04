@@ -31,6 +31,10 @@ body{
   margin-top: 30px;
 }
 
+.devise-text-color {
+  color: #fff;
+}
+
 header{
   height: 10%;
 }
@@ -39,11 +43,11 @@ header{
   height: 100%;
   display: flex;
   justify-content: space-between;
-  color: #BF1717;
+  color: #9F1717;
 }
 
 #logo{
-  color: #BF1717;
+  color: #9F1717;
   font-size: 50px;
   font-weight: 800;
   margin: 10px;

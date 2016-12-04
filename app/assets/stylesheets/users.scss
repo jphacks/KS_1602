@@ -2,8 +2,17 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
-.icon {
+.back {
+  margin: 50px;
+  background-color: #eee;
+  padding: 30px;
+  border-radius: 10px;
+}
+
+.userid {
   margin-top: 25px;
+  font-size: 25px;
+  font-weight: bold;
 }
 
 .contact-button {
