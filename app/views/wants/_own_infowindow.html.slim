@@ -1,0 +1,9 @@
+div class="infowindow"
+  h2 #{ want.title } が欲しい！
+  h3 user id: #{ want.user_id.to_s }
+  p #{ want.comment }
+  p class="button-delete"
+    = link_to '削除', want_path(want.id), method: :delete, data: { confirm: '本当に削除してもよろしいですか??' }
+    / = link_to "Destroy", :controller => "wants", :action => "destroy", :id => want, data: {:confirm => "Are you sure??"} このコードで動かない理由が不明：後日検証　わかる人いたら教えてください
+
+
