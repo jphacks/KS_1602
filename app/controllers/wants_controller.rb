@@ -13,12 +13,12 @@ class WantsController < ApplicationController
     @hash = Gmaps4rails.build_markers(@wants) do |want, marker|
       if user_signed_in?
         if current_user.id == want.user_id
-          info = "<div class=\"infowindow\"><h2>" + want.title + " が欲しい！</h2><h3>user id: " + want.user_id.to_s + "</h3><p>" + want.comment + "</p><p class=\"button-delete\"><a data-confirm=\"本当に削除しますか？?\" rel=\"nofollow\" data-method=\"delete\" href=\"/wants/" + want.id.to_s + "\">Destroy</a></p></div>";
+          info = render_to_string(partial: "wants/own_infowindow", locals: { want: want })
         else 
-          info = "<div class=\"infowindow\"><h2>" + want.title + " が欲しい！</h2><h3>"  + view_context.link_to("user id: " + want.user_id.to_s , :controller => "users", :action => "show", :id => want.user_id ) + "</h3><p>" + want.comment + "</p></div>";
+          info = render_to_string(partial: "wants/other_infowindow", locals: { want: want })
         end
       else
-        info = "<p>ピンを建てるには<a href=\"/users/sign_in\">ログイン</a>か<a href=\"/users/sign_up\">新規登録</a>を行ってください</p>"
+          info = render_to_string(partial: "wants/signin_infowindow", locals: { want: want })
       end
       marker.lat want.latitude
       marker.lng want.longitude
