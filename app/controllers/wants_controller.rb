@@ -1,6 +1,7 @@
 class WantsController < ApplicationController
   layout 'wants'
   before_action :set_want, only: [:show, :edit, :update, :destroy]
+  before_action :sign_in_required, only: [:index]
 
   # GET /wants
   # GET /wants.json
