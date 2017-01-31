@@ -1,30 +1,31 @@
-= form_for(want,:url => {:action => :create}) do |f|
-  - if want.errors.any?
-    #error_explanation
-      h2
-        = pluralize(want.errors.count, "error")
-        |  prohibited this want from being saved:
-      ul
-        - want.errors.full_messages.each do |message|
-          li
-            = message
-  .field
-    = f.label :user_id
-    = f.number_field :user_id
-  .field
-    = f.label :title
-    = f.text_field :title
-  .field
-    = f.label :category_id
-    = f.number_field :category_id
-  .field
-    = f.label :comment
-    = f.text_area :comment
-  .field
-    = f.label :latitude
-    = f.text_field :latitude
-  .field
-    = f.label :longitude
-    = f.text_field :longitude
-  .actions
-    = f.submit
+.error-message-layout
+  = form_for(want,:url => {:action => :create}) do |f|
+    - if want.errors.any?
+      #error_explanation
+        h2
+          = pluralize(want.errors.count, "error")
+          |  prohibited this want from being saved:
+        ul
+          - want.errors.full_messages.each do |message|
+            li
+              = message	
+
+    = f.hidden_field :user_id, value: current_user.id
+
+    .field
+      = f.label :title
+      = f.text_field :title
+
+    .field
+      = f.label :category_id
+      = f.number_field :category_id
+
+    .field
+      = f.label :comment
+      = f.text_area :comment
+      
+      = f.hidden_field :latitude, value: params[:want][:latitude]
+      = f.hidden_field :longitude, value: params[:want][:longitude]
+
+    .actions
+      = f.submit

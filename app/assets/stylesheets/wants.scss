@@ -21,7 +21,7 @@ body{
 }
 
 .sidebar {
-  background-color: #BF1717;
+  background-color: #9F1717;
   width: 300px;
   height: 100%;
   color: #fff;
@@ -136,4 +136,16 @@ table, th, td {
 
 button.navbar-toggle{
   margin-top: 20px;
+}
+
+a:visited {
+  color: #fff;
+}
+
+.error-message-layout {
+  margin: 30px;
+}
+
+.error-message-layout label{
+  color: #fff;
 }

@@ -5,4 +5,5 @@ class Want < ApplicationRecord
   def like_user(user_id)
     likes.find_by(user_id: user_id)
   end
+  validates :title, presence: true
 end

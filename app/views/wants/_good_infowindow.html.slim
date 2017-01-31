@@ -1,0 +1,7 @@
+div class="infowindow"
+  h2 #{want.title} が欲しい！
+  h3 = link_to "user id:#{want.user_id.to_s}", :controller => "users", :action => "show", :id => want.user_id
+  p #{want.comment}
+  a href="/likes/#{like.id}" data-method="delete" rel="nofollow"
+    img src="/assets/like.png" border="0"
+  いいね  #{want.likes_count}
