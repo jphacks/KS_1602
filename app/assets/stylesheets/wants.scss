@@ -4,6 +4,7 @@
 body{
   padding-top: 70px;
 }
+
 .wrapper {
   width: 100%;
   height: 100%;
@@ -22,6 +23,7 @@ body{
 
 .sidebar {
   background-color: #9F1717;
+  overflow: scroll;
   width: 300px;
   height: 100%;
   color: #fff;
@@ -58,7 +60,7 @@ div.mapview {
   margin: 10px
 }
 
-p.button-delete{
+p.button-delete {
   text-align: right;
   margin-right: 0;
 }
