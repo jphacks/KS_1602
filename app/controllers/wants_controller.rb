@@ -1,7 +1,6 @@
 class WantsController < ApplicationController
   layout 'wants'
   before_action :set_want, only: [:show, :edit, :update, :destroy]
-
   # GET /wants
   # GET /wants.json
   def index
@@ -12,13 +11,20 @@ class WantsController < ApplicationController
     @wants = Want.all
     @hash = Gmaps4rails.build_markers(@wants) do |want, marker|
       if user_signed_in?
+        #if want.like_user(current_user.id)#いいねをしてあるひと
+          like = Like.find_by(user_id: current_user.id, want_id: want.id)
+          #heart =  "<a rel=\"nofollow\" data-method=\"delete\" href=\"/likes/"+like.id.to_s+"\"><BUTTON type=\"submit\" style=\"border :0px none; background-color :#ffffff\"><img src=\"/assets/like.png\"></BUTTON></a>"+want.likes_count.to_s
+          # <input name=\"utf8\" type=\"hidden\" value=\"?\"><form class= \"like\" id= \"like\" action= \"/likes/delete\" method= \"delete\" accept-charset= \"UTF-8\"><input name=\"like[user_id]\" id=\"like_user_id\" \" type= \"hidden\" value= \""+current_user.id.to_s+"\"><label for=\"user_id\"></label><input name= \"like[want_id]\" id=\"like_want_id\"type=\"hidden\" value= \""+want.id.to_s+"\"><label for= \"want_id\"></label>";
+        #else   #いいねをしてない人
+          #heart = "<input name=\"utf8\" type=\"hidden\" value=\"?\"><input type=\"hidden\" name=\"authenticity_token\" value=\"form_authenticity_token\"><form class= \"like\" id= \"like\" action= \"/likes\" method= \"post\" accept-charset= \"UTF-8\"><input name=\"like[user_id]\" id=\"like_user_id\" \" type= \"hidden\" value= \""+current_user.id.to_s+"\"><label for=\"user_id\"></label><input name= \"like[want_id]\" id=\"like_want_id\"type=\"hidden\" value= \""+want.id.to_s+"\"><label for= \"want_id\"></label><BUTTON type=\"submit\" style=\"border :0px none; background-color :#ffffff\"><img src=\"/assets/like_brack.png\"></BUTTON>"+want.likes_count.to_s;
+        #end
         if current_user.id == want.user_id
           info = render_to_string(partial: "wants/own_infowindow", locals: { want: want })
         else 
-          info = render_to_string(partial: "wants/other_infowindow", locals: { want: want })
+          info = want.like_user(current_user.id)? render_to_string(partial: "wants/good_infowindow", locals: {want: want,like: like}) : render_to_string(partial: "wants/other_infowindow", locals: { want: want })
         end
       else
-          info = render_to_string(partial: "wants/signin_infowindow", locals: { want: want })
+          info = render_to_string(partial: "wants/signin_infowindow", locals: { want: want})
       end
       marker.lat want.latitude
       marker.lng want.longitude

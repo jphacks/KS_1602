@@ -4,11 +4,12 @@ Rails.application.routes.draw do
   devise_for :users
   resources :contacts
   resources :user_pages
-  resources :list_goods
+  resources :likes
   resources :count_wants
   resources :categories
-  resources :wants
-
+  resources :wants do
+    resources :likes, only: [:create, :destroy]
+  end
   resources :users, :only => :show
 
   get 'home/index'

@@ -1,1 +1,0 @@
-json.partial! "list_goods/list_good", list_good: @list_good
