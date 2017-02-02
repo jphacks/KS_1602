@@ -140,14 +140,14 @@ button.navbar-toggle{
   margin-top: 20px;
 }
 
-a:visited {
-  color: #fff;
-}
-
 .error-message-layout {
   margin: 30px;
 }
 
-.error-message-layout label{
+.error-message-layout label {
+  color: #fff;
+}
+
+.errorpage-backbutton {
   color: #fff;
 }
