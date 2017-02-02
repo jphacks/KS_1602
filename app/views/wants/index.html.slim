@@ -62,132 +62,170 @@
   input id='token' type='hidden' value='#{form_authenticity_token}'
   .col-xs-12.mapview
     #map style="width: 100%; height: 100%;"
-      - if user_signed_in?
-        javascript:
-          last_LATITUDE = #{if @last then @last["latitude"] else 0};
-          last_LONGITUDE =  #{if @last then @last["longitude"] else 0};
-          var flagNewMarkerAdded = 0;
-          var newMarker;
-          var tokenDOM = document.getElementById("token");
-          token = tokenDOM.value;
-          var geocoder = new google.maps.Geocoder();
-          var markers = [];
-          handler = Gmaps.build('Google');
-          handler.buildMap({ provider: {}, internal: {id: 'map'}}, function(){
-            markers = handler.addMarkers(#{raw @hash.to_json});
-            var wants = #{raw @wants.to_json};
-            var index=0
-            markers = markers.map(function(m){
-              m.category_id = wants[index].category_id;
-              index++;
-              return m;
-            });
 
-            handler.bounds.extendWith(markers);
-            handler.fitMapToBounds();
-            if (last_LATITUDE == 0 && last_LONGITUDE == 0){
-              handler.getMap().setCenter(new google.maps.LatLng(36.204824, 138.252924));
-              handler.getMap().setZoom(5);
-            }
-            else{
-              handler.getMap().setCenter(new google.maps.LatLng(last_LATITUDE, last_LONGITUDE));
-              handler.getMap().setZoom(16);
-            }
-          });
+form.new_want.hidden#new_want action="/wants" method="post" accept-charset="UTF-8"
+  input name="utf8" type="hidden" value="✓" 
+  input name="authenticity_token" type="hidden" value="'+token+'"
+  label for="want_user_id"
+  input name="want[user_id]" id="want_user_id" type="hidden" value="'+#{if current_user then current_user.id}+'"
+  .field
+    label for="want_title"
+      | Title
+    input#want_title name="want[title]" type="text"
+      | が欲しい
+  .field
+    label for="want_category_id"
+      | Category name
+    select name="want[category_id]" id="want_categories_id"
+    option value="1"
+      | 飲食関係
+    option value="2"
+      | ファッション
+    option value="3"
+      | エンタメ
+    option value="4"
+      | 公共施設
+    option value="5"
+      | 交通関係
+  .field
+    label for="want_comment"
+      | Comment
+    textarea name="want[comment]" id="want_comment"
+    label for="want_latitude"
+    input name="want[latitude]" id="want_latitude" type="hidden" value="'+e.latLng.lat()+'"
+    label for="want_longitude"
+    input name="want[longitude]" id="want_longitude" type="hidden" value="'+e.latLng.lng()+'"
+  .actions
+    input name="commit" type="submit" value="Create Want" data-disable-with="Create Want"
 
-          $(function(){
-            $(".cb").change(function(){
-              var id = $(this).val();
-              if ($(this).prop('checked')){
-                for (var i = 0; i < markers.length; i++){
-                  if(id != markers[i].category_id)continue;
-									markers[i].setMap(handler.getMap())
-                }
-              } else{
-                for (var i = 0; i < markers.length; i++){
-                  if(id != markers[i].category_id)continue;
-                  markers[i].setMap(null);
-                }
-              }
-            });
-          });
 
-          handler.callback = function(){
-            google.maps.event.addListener(handler.map.serviceObject, "click", function(e){
-              var form = '<form class="new_want" id="new_want" action="/wants" method="post" accept-charset="UTF-8"><input name="utf8" type="hidden" value="✓"><input name="authenticity_token" type="hidden" value="'+token+'"><label for="want_user_id"></label><input name="want[user_id]" id="want_user_id" type="hidden" value="'+#{if current_user then current_user.id}+'"><div class="field"><label for="want_title">Title</label><input name="want[title]" id="want_title" type="text">が欲しい</div><div class="field"><label for="want_category_id">Category name</label><select name="want[category_id]" id="want_categories_id"/>i<option value="1">飲食関係</option><option value="2">ファッション</option><option value="3">エンタメ</option><option value="4">公共施設</option><option value="5">交通関係</option></select></div><div class="field"><label for="want_comment">Comment</label><textarea name="want[comment]" id="want_comment"></textarea></div><label for="want_latitude"></label><input name="want[latitude]" id="want_latitude" type="hidden" value="'+e.latLng.lat()+'"><label for="want_longitude"></label><input name="want[longitude]" id="want_longitude" type="hidden" value="'+e.latLng.lng()+'"><div class="actions"><input name="commit" type="submit" value="Create Want" data-disable-with="Create Want"></div></form>';
-              if (flagNewMarkerAdded == 0){
-                flagNewMarkerAdded = 1;
-              } else {
-                handler.removeMarkers(newMarker);
-              }
-              newMarker = handler.addMarkers([
-                {
-                  "lat": e.latLng.lat(),
-                  "lng": e.latLng.lng(),
-                  "infowindow": form,
-                }
-              ]);
+- if user_signed_in?
+  javascript:
+    last_LATITUDE = #{if @last then @last["latitude"] else 0};
+    last_LONGITUDE =  #{if @last then @last["longitude"] else 0};
+    var flagNewMarkerAdded = 0;
+    var newMarker;
+    var tokenDOM = document.getElementById("token");
+    token = tokenDOM.value;
+    var geocoder = new google.maps.Geocoder();
+    var markers = [];
+    handler = Gmaps.build('Google');
+    handler.buildMap({ provider: {}, internal: {id: 'map'}}, function(){
+      markers = handler.addMarkers(#{raw @hash.to_json});
+      var wants = #{raw @wants.to_json};
+      var index=0
+      markers = markers.map(function(m){
+        m.category_id = wants[index].category_id;
+        index++;
+        return m;
+      });
 
-            });
+      handler.bounds.extendWith(markers);
+      handler.fitMapToBounds();
+      if (last_LATITUDE == 0 && last_LONGITUDE == 0){
+        handler.getMap().setCenter(new google.maps.LatLng(36.204824, 138.252924));
+        handler.getMap().setZoom(5);
+      }
+      else{
+        handler.getMap().setCenter(new google.maps.LatLng(last_LATITUDE, last_LONGITUDE));
+        handler.getMap().setZoom(16);
+      }
+    });
 
-            document.getElementById('submit').addEventListener('click', function() {
-              geocodeAddress(geocoder, handler);
-            });
+    $(function(){
+      $(".cb").change(function(){
+        var id = $(this).val();
+        if ($(this).prop('checked')){
+          for (var i = 0; i < markers.length; i++){
+            if(id != markers[i].category_id)continue;
+            markers[i].setMap(handler.getMap())
+          }
+        } else{
+          for (var i = 0; i < markers.length; i++){
+            if(id != markers[i].category_id)continue;
+            markers[i].setMap(null);
+          }
+        }
+      });
+    });
 
-            function geocodeAddress(geocoder, resultMap) {
-              var address = document.getElementById('address').value;
-              geocoder.geocode({'address': address}, function(results, status) {
-                if (status === google.maps.GeocoderStatus.OK) {
-                  resultMap.getMap().setCenter(results[0].geometry.location);
-                  resultMap.getMap().setZoom(17);
-                } else {
-                  alert('Geocode was not successful for the following reason: ' + status);
-                }
-              });
-            }
-          }();
+    handler.callback = function(){
+      google.maps.event.addListener(handler.map.serviceObject, "click", function(e){
+        var $form = $('#new_want').clone();
+        $form.removeClass('hidden');
+        if (flagNewMarkerAdded == 0){
+          flagNewMarkerAdded = 1;
+        } else {
+          handler.removeMarkers(newMarker);
+        }
+        newMarker = handler.addMarkers([
+          {
+            "lat": e.latLng.lat(),
+            "lng": e.latLng.lng(),
+            "infowindow": $form.html(),
+          }
+        ]);
 
-      - else
-        javascript:
-          var tokenDOM = document.getElementById("token");
-          token = tokenDOM.value;
-          var geocoder = new google.maps.Geocoder();
+      });
 
-          handler = Gmaps.build('Google');
-          handler.buildMap({ provider: {}, internal: {id: 'map'}}, function(){
-            markers = handler.addMarkers(#{raw @hash.to_json});
-            handler.getMap().setCenter(new google.maps.LatLng(36.204824, 138.252924));
-            handler.getMap().setZoom(5);
-            handler.bounds.extendWith(markers);
-            handler.fitMapToBounds();
-          });
+      document.getElementById('submit').addEventListener('click', function() {
+        geocodeAddress(geocoder, handler);
+      });
 
-          handler.callback = function(){
-            google.maps.event.addListener(handler.map.serviceObject, "click", function(e){
-              var form = 'ピンを建てるには'+'<a href="/users/sign_in">ログイン</a>'+'か'+'<a href="/users/sign_up">新規登録</a>'+'を行ってください'
-              markers = handler.addMarkers([
-                {
-                  "lat": e.latLng.lat(),
-                  "lng": e.latLng.lng(),
-                  "infowindow": form,
-                }
-              ]);
-            });
+      function geocodeAddress(geocoder, resultMap) {
+        var address = document.getElementById('address').value;
+        geocoder.geocode({'address': address}, function(results, status) {
+          if (status === google.maps.GeocoderStatus.OK) {
+            resultMap.getMap().setCenter(results[0].geometry.location);
+            resultMap.getMap().setZoom(17);
+          } else {
+            alert('Geocode was not successful for the following reason: ' + status);
+          }
+        });
+      }
+    }();
 
-            document.getElementById('submit').addEventListener('click', function() {
-              geocodeAddress(geocoder, handler);
-            });
+- else
+  javascript:
+    var tokenDOM = document.getElementById("token");
+    token = tokenDOM.value;
+    var geocoder = new google.maps.Geocoder();
 
-            function geocodeAddress(geocoder, resultMap) {
-              var address = document.getElementById('address').value;
-              geocoder.geocode({'address': address}, function(results, status) {
-                if (status === google.maps.GeocoderStatus.OK) {
-                  resultMap.getMap().setCenter(results[0].geometry.location);
-                  resultMap.getMap().setZoom(17);
-                } else {
-                  alert('Geocode was not successful for the following reason: ' + status);
-                }
-              });
-            }
-          }();
+    handler = Gmaps.build('Google');
+    handler.buildMap({ provider: {}, internal: {id: 'map'}}, function(){
+      markers = handler.addMarkers(#{raw @hash.to_json});
+      handler.getMap().setCenter(new google.maps.LatLng(36.204824, 138.252924));
+      handler.getMap().setZoom(5);
+      handler.bounds.extendWith(markers);
+      handler.fitMapToBounds();
+    });
+
+    handler.callback = function(){
+      google.maps.event.addListener(handler.map.serviceObject, "click", function(e){
+        var form = 'ピンを建てるには'+'<a href="/users/sign_in">ログイン</a>'+'か'+'<a href="/users/sign_up">新規登録</a>'+'を行ってください'
+        markers = handler.addMarkers([
+          {
+            "lat": e.latLng.lat(),
+            "lng": e.latLng.lng(),
+            "infowindow": form,
+          }
+        ]);
+      });
+
+      document.getElementById('submit').addEventListener('click', function() {
+        geocodeAddress(geocoder, handler);
+      });
+
+      function geocodeAddress(geocoder, resultMap) {
+        var address = document.getElementById('address').value;
+        geocoder.geocode({'address': address}, function(results, status) {
+          if (status === google.maps.GeocoderStatus.OK) {
+            resultMap.getMap().setCenter(results[0].geometry.location);
+            resultMap.getMap().setZoom(17);
+          } else {
+            alert('Geocode was not successful for the following reason: ' + status);
+          }
+        });
+      }
+    }();
 
